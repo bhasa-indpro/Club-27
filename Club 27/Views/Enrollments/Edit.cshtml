@@ -1,0 +1,71 @@
+﻿@model Club_27.Models.Enrollment
+
+@{
+    ViewData["Title"] = "Edit";
+     var employeeListItem = ViewBag.TypeDropDown1;
+    var activityListItem = ViewBag.TypeDropDown2;
+}
+
+<h1>Edit</h1>
+
+<h4>Enrollment</h4>
+<hr />
+@*<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EnrollmentID" />
+
+            <div class="form-group">
+                <label asp-for="EmployeeID" class="control-label"></label>
+                <input asp-for="EmployeeID" class="form-control" />
+                <span asp-validation-for="EmployeeID" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="ActivityID" class="control-label"></label>
+                <input asp-for="ActivityID" class="form-control" />
+                <span asp-validation-for="ActivityID" class="text-danger"></span>
+            </div>
+                        
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>*@
+<form method ="post">
+  <br />
+  
+    <select asp-for ="EmployeeID">
+           <option selected>--Employee--</option>
+            @foreach (var item in (IEnumerable<EmployeeMaster>)employeeListItem)
+                    {
+                        <option value="@item.EmployeeID">@item.EmployeeName</option>
+                    }
+       </select>
+    <br />
+    <br />
+        <select asp-for ="ActivityID">
+           <option selected>--Activity--</option>
+            @foreach (var item in (IEnumerable<ActivityMaster>)activityListItem)
+                    {
+                        <option value="@item.ActivityID">@item.ActivityName</option>
+                    }
+       </select>
+       <br /><br />
+
+   <button type ="submit" class= "btn btn-primary">
+       Edit
+   </button>
+
+    <p style = "color:red;">
+           @Html.Label("",Convert.ToString((string)ViewBag.Duplicate1))
+       </p> 
+</form>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

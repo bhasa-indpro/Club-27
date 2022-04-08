@@ -1,0 +1,146 @@
+﻿@model Club_27.Models.Enrollment
+
+@{
+    ViewData["Title"] = "Create";
+    var employeeListItem = ViewBag.TypeDropDown1;
+    var activityListItem = ViewBag.TypeDropDown2;
+}
+
+@*<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+*@
+
+
+<h1>Create</h1>
+
+<h4>Enrollment</h4>
+<hr />
+
+<form method ="post">
+  <br />
+    
+  <select asp-for ="EmployeeID">
+           <option selected>--Employee--</option>
+           @foreach (var item in (IEnumerable<EmployeeMaster>)employeeListItem)
+                    {
+                        <option value="@item.EmployeeID">@item.EmployeeName</option>
+                    }
+       </select>
+    <br />
+    <br />
+        <select asp-for ="ActivityID">
+           <option selected>--Activity--</option>
+            @foreach (var item in (IEnumerable<ActivityMaster>)activityListItem)
+                    {
+                        <option value="@item.ActivityID">@item.ActivityName</option>
+                    }
+       </select>
+       <br /><br />
+
+       
+  @*     @if (ViewBag.ErrorMessage != null)
+    {
+        <h1>@ViewBag.ErrorMessage</h1>
+    }*@
+    <button type ="submit" id= "button" class= "btn btn-primary">
+       Create
+   </button>
+
+   <p style = "color:red;">
+           @Html.Label("",Convert.ToString((string)ViewBag.Duplicate1))
+       </p> 
+
+       <p style = "color:red;">
+           @Html.Label("",Convert.ToString((string)ViewBag.Duplicate2))
+       </p> 
+</form>
+
+
+@*<select id="sports" style="width:150px;">
+    <option value="" selected hidden>-- select</option>
+</select>*@
+
+@*<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EmployeeID" class="control-label"></label>
+                <input asp-for="EmployeeID" class="form-control" />
+                <span asp-validation-for="EmployeeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActivityID" class="control-label"></label>
+                <input asp-for="ActivityID" class="form-control" />
+                <span asp-validation-for="ActivityID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>*@
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@*@section scripts{
+    <script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $.ajax({url: '@Url.Action("Create" , "Enrollments")', type:"post" ,success: function(result){
+      if(result != null)
+      {
+          alert(result.ToString());
+      }
+    }});
+  });
+});
+</script>
+}*@
+
+@*@section scripts{
+    <script>
+    $(document).ready(function()
+    {
+        var list=
+        [
+            "cricket","volleyball"
+        ];
+        $('#sports').select2({
+            data:list
+        });
+    });
+</script>
+}*@
+
+@*<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EmployeeID" class="control-label"></label>
+                <input asp-for="EmployeeID" class="form-control" />
+                <span asp-validation-for="EmployeeID" class="text-danger"></span>
+
+                <select id="EmployeeID" style="width:150px;">
+                    <option value="">--select--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActivityID" class="control-label"></label>
+                <input asp-for="ActivityID" class="form-control" />
+                <span asp-validation-for="ActivityID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
