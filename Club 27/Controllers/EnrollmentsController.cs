@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Club_27.Models;
+using Microsoft.Extensions.Logging;
 
 
 namespace Club_27.Controllers
@@ -21,6 +22,7 @@ namespace Club_27.Controllers
         {
             _context = context;
             _logger = logger;
+            _logger.LogDebug(1, "NLog injected into HomeController");
         }
 
         // GET: EmployeeActivities
@@ -91,7 +93,7 @@ namespace Club_27.Controllers
                         if (ex is DbUpdateException)
                         {
                             //return Content("Error - Duplicate Enrollment");
-                            _logger.LogInformation(ex.ToString());
+                            _logger.LogInformation("Duplicate (CreatePost)");
                             ViewBag.Duplicate1 = "Error - Duplicate Enrollment";
                         }
 
@@ -100,6 +102,7 @@ namespace Club_27.Controllers
                 else
                 {
                     //return Content("Error - Maximum of 4 activities only");
+                    _logger.LogInformation("Exceeding (CreatePost)");
                     ViewBag.Duplicate2 = "Error - Maximum of 4 activities only";
                 }
                 var TypeDropDown1 = _context.EmployeeMasters.ToList();

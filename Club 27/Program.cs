@@ -2,12 +2,22 @@ using Club_27.Models;
 using Club_27.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using NLog;
+using NLog.Web;
+
+var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+logger.Debug("init main");
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionstring = builder.Configuration.GetConnectionString("Club27Connection");
 builder.Services.AddDbContext<Club27DBContext>(x => x.UseSqlServer(connectionstring));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// NLog: Setup NLog for Dependency injection
+builder.Logging.ClearProviders();
+builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+builder.Host.UseNLog();
 
 // Dependency Injection
 builder.Services.AddScoped<EmployeeMasterSL>();
