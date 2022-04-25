@@ -62,6 +62,7 @@ namespace Club_27.Services
                     
                     enr.ActivityID = employeeActivity.ActivityID;
                     enr.EmployeeID = employeeActivity.EmployeeID;
+                    enr.VenueID = employeeActivity.VenueID;
 
                     _context.SaveChanges();
                     return true;

@@ -4,6 +4,7 @@
     ViewData["Title"] = "Create";
     var employeeListItem = ViewBag.TypeDropDown1;
     var activityListItem = ViewBag.TypeDropDown2;
+    var venueListItem = ViewBag.TypeDropDown3;
 }
 
 @*<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -35,7 +36,17 @@
                         <option value="@item.ActivityID">@item.ActivityName</option>
                     }
        </select>
-       <br /><br />
+       <br />
+       <br />
+       <select asp-for ="VenueID">
+           <option selected>--Venue--</option>
+            @foreach (var item in (IEnumerable<Venue>)venueListItem)
+                    {
+                        <option value="@item.VenueID">@item.VenueName</option>
+                    }
+       </select>
+       <br />
+       <br />
 
        
   @*     @if (ViewBag.ErrorMessage != null)

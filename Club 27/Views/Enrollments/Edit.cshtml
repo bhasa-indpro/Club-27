@@ -2,8 +2,9 @@
 
 @{
     ViewData["Title"] = "Edit";
-     var employeeListItem = ViewBag.TypeDropDown1;
+    var employeeListItem = ViewBag.TypeDropDown1;
     var activityListItem = ViewBag.TypeDropDown2;
+    var venueListItem = ViewBag.TypeDropDown3;
 }
 
 <h1>Edit</h1>
@@ -53,7 +54,17 @@
                         <option value="@item.ActivityID">@item.ActivityName</option>
                     }
        </select>
-       <br /><br />
+       <br />
+       <br />
+       <select asp-for ="VenueID">
+           <option selected>--Venue--</option>
+            @foreach (var item in (IEnumerable<Venue>)venueListItem)
+                    {
+                        <option value="@item.VenueID">@item.VenueName</option>
+                    }
+       </select>
+       <br />
+       <br />
 
    <button type ="submit" class= "btn btn-primary">
        Edit

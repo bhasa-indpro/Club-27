@@ -25,6 +25,8 @@ namespace Club_27.Models
             modelBuilder.Entity<EmployeeMaster>().HasIndex(x => new { x.Email }).IsUnique(true);
             modelBuilder.Entity<ActivityMaster>().HasIndex(x => new { x.ActivityName }).IsUnique(true);
 
+            //modelBuilder.Entity<ActivityMaster>().WillCascadeOnDelete(false);
+
             //modelBuilder.Entity<Enrollment>(entity => {
             //    entity.HasIndex(e => new{ e.EmployeeID,e.ActivityID}).IsUnique();
             //});
@@ -35,6 +37,9 @@ namespace Club_27.Models
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<EmployeeMaster> EmployeeMasters { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Venue> Venues { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
     }
 }

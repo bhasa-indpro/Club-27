@@ -28,7 +28,7 @@ namespace Club_27.Controllers
         // GET: EmployeeActivities
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Enrollments.Include(x => x.Employee).Include(x => x.Activity).ToListAsync());
+            return View(await _context.Enrollments.Include(x => x.Employee).Include(x => x.Activity).Include(x => x.Venue).ToListAsync());
         }
 
         // GET: EmployeeActivities/Details/5
@@ -39,12 +39,15 @@ namespace Club_27.Controllers
                 return NotFound();
             }
 
-            var employeeActivity = await _context.Enrollments
-                .FirstOrDefaultAsync(m => m.EnrollmentID == id);
+            var employeeActivity = await _context.Enrollments.Include(x => x.Activity).Include(x => x.Venue).Include(x => x.Employee).FirstOrDefaultAsync(m => m.EnrollmentID == id);
+            
             if (employeeActivity == null)
             {
                 return NotFound();
             }
+            //var GetObj = _context.Enrollments.Include(x => x.Activity).Include(x => x.Venue).Include(x => x.Employee).FirstOrDefaultAsync(m => m.EnrollmentID == id);
+            //ViewBag.GetObj = GetObj;
+
 
             return View(employeeActivity);
         }
@@ -54,9 +57,11 @@ namespace Club_27.Controllers
         {
             var TypeDropDown1 = _context.EmployeeMasters.ToList();
             var TypeDropDown2 = _context.ActivityMasters.ToList();
+            var TypeDropDown3 = _context.Venues.ToList();
 
             ViewBag.TypeDropDown1 = TypeDropDown1;
             ViewBag.TypeDropDown2 = TypeDropDown2;
+            ViewBag.TypeDropDown3 = TypeDropDown3;
 
             //TempData["tempData1"] = TypeDropDown1;
             //TempData["tempCheck"] = "Check Data";
@@ -107,9 +112,11 @@ namespace Club_27.Controllers
                 }
                 var TypeDropDown1 = _context.EmployeeMasters.ToList();
                 var TypeDropDown2 = _context.ActivityMasters.ToList();
+                var TypeDropDown3 = _context.Venues.ToList();
 
                 ViewBag.TypeDropDown1 = TypeDropDown1;
                 ViewBag.TypeDropDown2 = TypeDropDown2;
+                ViewBag.TypeDropDown3 = TypeDropDown3;
 
 
             }
@@ -221,9 +228,11 @@ namespace Club_27.Controllers
             }
             var TypeDropDown1 = _context.EmployeeMasters.ToList();
             var TypeDropDown2 = _context.ActivityMasters.ToList();
+            var TypeDropDown3 = _context.Venues.ToList();
 
             ViewBag.TypeDropDown1 = TypeDropDown1;
             ViewBag.TypeDropDown2 = TypeDropDown2;
+            ViewBag.TypeDropDown3 = TypeDropDown3;
             return View(employeeActivity);
         }
 
@@ -242,10 +251,12 @@ namespace Club_27.Controllers
             {
                 var TypeDropDown1 = _context.EmployeeMasters.ToList();
                 var TypeDropDown2 = _context.ActivityMasters.ToList();
+                var TypeDropDown3 = _context.Venues.ToList();
 
                 ViewBag.TypeDropDown1 = TypeDropDown1;
                 ViewBag.TypeDropDown2 = TypeDropDown2;
-                
+                ViewBag.TypeDropDown3 = TypeDropDown3;
+
                 try
                 {
                     employeeActivity.EnrollmentID = id;

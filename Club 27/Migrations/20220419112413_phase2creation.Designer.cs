@@ -4,6 +4,7 @@ using Club_27.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Club_27.Migrations
 {
     [DbContext(typeof(Club27DBContext))]
-    partial class Club27DBContextModelSnapshot : ModelSnapshot
+    [Migration("20220419112413_phase2creation")]
+    partial class phase2creation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,9 +52,6 @@ namespace Club_27.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingID"), 1L, 1);
 
-                    b.Property<int>("ActivityID")
-                        .HasColumnType("int");
-
                     b.Property<int?>("ActvityID")
                         .HasColumnType("int");
 
@@ -62,7 +61,7 @@ namespace Club_27.Migrations
                     b.Property<int>("MaxLimit")
                         .HasColumnType("int");
 
-                    b.Property<int>("VenueID")
+                    b.Property<int?>("VenueID")
                         .HasColumnType("int");
 
                     b.HasKey("BookingID");
@@ -91,7 +90,7 @@ namespace Club_27.Migrations
                     b.Property<long>("Phone")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("RoleID")
+                    b.Property<int?>("RoleID")
                         .HasColumnType("int");
 
                     b.HasKey("EmployeeID");
@@ -119,7 +118,7 @@ namespace Club_27.Migrations
                     b.Property<int>("EmployeeID")
                         .HasColumnType("int");
 
-                    b.Property<int>("VenueID")
+                    b.Property<int?>("VenueID")
                         .HasColumnType("int");
 
                     b.HasKey("EnrollmentID");
@@ -148,7 +147,7 @@ namespace Club_27.Migrations
 
                     b.HasKey("RoleID");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("Club_27.Models.Venue", b =>
@@ -185,7 +184,7 @@ namespace Club_27.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleID")
+                    b.Property<int?>("RoleID")
                         .HasColumnType("int");
 
                     b.HasKey("Username");
@@ -205,9 +204,7 @@ namespace Club_27.Migrations
 
                     b.HasOne("Club_27.Models.Venue", "Venue")
                         .WithMany()
-                        .HasForeignKey("VenueID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VenueID");
 
                     b.Navigation("Activity");
 
@@ -218,9 +215,7 @@ namespace Club_27.Migrations
                 {
                     b.HasOne("Club_27.Models.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoleID");
 
                     b.Navigation("Role");
                 });
@@ -241,9 +236,7 @@ namespace Club_27.Migrations
 
                     b.HasOne("Club_27.Models.Venue", "Venue")
                         .WithMany()
-                        .HasForeignKey("VenueID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VenueID");
 
                     b.Navigation("Activity");
 
@@ -269,9 +262,7 @@ namespace Club_27.Migrations
 
                     b.HasOne("Club_27.Models.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoleID");
 
                     b.Navigation("Employee");
 

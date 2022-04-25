@@ -19,8 +19,12 @@ namespace Club_27.Models
         [ForeignKey ("EmployeeID")]
         public virtual EmployeeMaster Employee { get; set; }
 
-
         [ForeignKey ("ActivityID")]
         public virtual ActivityMaster Activity { get; set; }
+
+        public int VenueID { get; set; }
+
+        [ForeignKey ("VenueID")]
+        public virtual Venue Venue { get; set; }
     }
 }

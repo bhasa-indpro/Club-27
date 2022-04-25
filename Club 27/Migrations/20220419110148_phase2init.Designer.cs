@@ -4,6 +4,7 @@ using Club_27.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Club_27.Migrations
 {
     [DbContext(typeof(Club27DBContext))]
-    partial class Club27DBContextModelSnapshot : ModelSnapshot
+    [Migration("20220419110148_phase2init")]
+    partial class phase2init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,16 +93,11 @@ namespace Club_27.Migrations
                     b.Property<long>("Phone")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("RoleID")
-                        .HasColumnType("int");
-
                     b.HasKey("EmployeeID");
 
                     b.HasIndex("Email")
                         .IsUnique()
                         .HasFilter("[Email] IS NOT NULL");
-
-                    b.HasIndex("RoleID");
 
                     b.ToTable("EmployeeMasters");
                 });
@@ -119,36 +116,14 @@ namespace Club_27.Migrations
                     b.Property<int>("EmployeeID")
                         .HasColumnType("int");
 
-                    b.Property<int>("VenueID")
-                        .HasColumnType("int");
-
                     b.HasKey("EnrollmentID");
 
                     b.HasIndex("ActivityID");
-
-                    b.HasIndex("VenueID");
 
                     b.HasIndex("EmployeeID", "ActivityID")
                         .IsUnique();
 
                     b.ToTable("Enrollments");
-                });
-
-            modelBuilder.Entity("Club_27.Models.Role", b =>
-                {
-                    b.Property<int>("RoleID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleID"), 1L, 1);
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RoleID");
-
-                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Club_27.Models.Venue", b =>
@@ -159,7 +134,7 @@ namespace Club_27.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VenueID"), 1L, 1);
 
-                    b.Property<int?>("ActivityID")
+                    b.Property<int>("ActivityID")
                         .HasColumnType("int");
 
                     b.Property<string>("VenueName")
@@ -178,21 +153,16 @@ namespace Club_27.Migrations
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("EmployeeID")
+                    b.Property<int>("EmployeeID")
                         .HasColumnType("int");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleID")
-                        .HasColumnType("int");
-
                     b.HasKey("Username");
 
                     b.HasIndex("EmployeeID");
-
-                    b.HasIndex("RoleID");
 
                     b.ToTable("Users");
                 });
@@ -214,17 +184,6 @@ namespace Club_27.Migrations
                     b.Navigation("Venue");
                 });
 
-            modelBuilder.Entity("Club_27.Models.EmployeeMaster", b =>
-                {
-                    b.HasOne("Club_27.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("Club_27.Models.Enrollment", b =>
                 {
                     b.HasOne("Club_27.Models.ActivityMaster", "Activity")
@@ -239,24 +198,18 @@ namespace Club_27.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Club_27.Models.Venue", "Venue")
-                        .WithMany()
-                        .HasForeignKey("VenueID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Activity");
 
                     b.Navigation("Employee");
-
-                    b.Navigation("Venue");
                 });
 
             modelBuilder.Entity("Club_27.Models.Venue", b =>
                 {
                     b.HasOne("Club_27.Models.ActivityMaster", "Activity")
                         .WithMany()
-                        .HasForeignKey("ActivityID");
+                        .HasForeignKey("ActivityID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Activity");
                 });
@@ -265,17 +218,11 @@ namespace Club_27.Migrations
                 {
                     b.HasOne("Club_27.Models.EmployeeMaster", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmployeeID");
-
-                    b.HasOne("Club_27.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleID")
+                        .HasForeignKey("EmployeeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Employee");
-
-                    b.Navigation("Role");
                 });
 #pragma warning restore 612, 618
         }

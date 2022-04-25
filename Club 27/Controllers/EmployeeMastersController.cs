@@ -30,7 +30,7 @@ namespace Club_27.Controllers
             //    x.Em
             //});
                         
-            return View(await _context.EmployeeMasters.ToListAsync());
+            return View(await _context.EmployeeMasters.Include(x => x.Role).ToListAsync());
             //var t = new EnrollmentViewModel();
             //var enrolledActivities = await _context.EmployeeMasters.Include(x => x.Activity).Select(x => new EnrollmentViewModel { EmployeeVM = x , ActivityListVM = x }).ToListAsync();
             //return View(enrolledActivities);
@@ -46,8 +46,7 @@ namespace Club_27.Controllers
                 return NotFound();
             }
 
-            var employeeMaster = await _context.EmployeeMasters
-                .FirstOrDefaultAsync(m => m.EmployeeID == id);
+            var employeeMaster = await _context.EmployeeMasters.Include(x => x.Role).FirstOrDefaultAsync(m => m.EmployeeID == id);
             if (employeeMaster == null)
             {
                 return NotFound();
@@ -59,6 +58,9 @@ namespace Club_27.Controllers
         // GET: EmployeeMasters/Create
         public IActionResult Create()
         {
+            var TypeDropDown = _context.Roles.ToList();
+            ViewBag.TypeDropDown = TypeDropDown;
+
             return View();
         }
 
@@ -103,6 +105,8 @@ namespace Club_27.Controllers
             {
                 return NotFound();
             }
+            var TypeDropDown = _context.Roles.ToList();
+            ViewBag.TypeDropDown = TypeDropDown;
             return View(employeeMaster);
         }
 
@@ -111,7 +115,7 @@ namespace Club_27.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeID,EmployeeName,Email,Phone")] EmployeeMaster employeeMaster)
+        public async Task<IActionResult> Edit(int id, EmployeeMaster employeeMaster)
         {
             if (id != employeeMaster.EmployeeID)
             {

@@ -70,6 +70,7 @@ namespace Club_27.Services
                     emp.EmployeeName = employeeMaster.EmployeeName;
                     emp.Phone = employeeMaster.Phone;
                     emp.Email = employeeMaster.Email;
+                    emp.RoleID = employeeMaster.RoleID;
 
                     _context.SaveChanges();
                     return true;

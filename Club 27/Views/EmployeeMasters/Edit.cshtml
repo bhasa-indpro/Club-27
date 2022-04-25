@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit";
+    var roleListItem = ViewBag.TypeDropDown;
 }
 
 <h1>Edit</h1>
@@ -28,6 +29,19 @@
                 <input asp-for="Phone" class="form-control" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
+            <div>
+                Select Role
+            </div>
+            <br>
+             <select asp-for ="RoleID">
+           <option selected>--Role--</option>
+            @foreach (var item in (IEnumerable<Role>)roleListItem)
+                    {
+                        <option value="@item.RoleID">@item.RoleName</option>
+                    }
+       </select>
+       <br />
+       <br />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

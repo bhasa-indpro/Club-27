@@ -15,6 +15,7 @@
                 <th>Enrollment No.</th>
                 <th>Employee</th>
                 <th>Activity</th>
+                <th>Venue</th>
                 <th>Action</th>
         </tr>
     </thead>
@@ -24,6 +25,7 @@
             <td>@item.EnrollmentID</td>
             <td>@item.Employee.EmployeeName</td>
             <td>@item.Activity.ActivityName</td>
+            <td>@item.Venue.VenueName</td>
             <td>
                 <a asp-controller="Enrollments" asp-action="Edit" asp-route-id="@item.EnrollmentID">Edit</a> |
                 <a asp-controller="Enrollments" asp-action="Details" asp-route-id="@item.EnrollmentID">Details</a> |

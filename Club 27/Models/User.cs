@@ -14,7 +14,16 @@ namespace Club27.Models
     {
         [Key]
         public string Username { get; set; }
+        
+        [Required]
         public string Password { get; set; }
+        
+        [ForeignKey("EmployeeID")]
         public virtual EmployeeMaster Employee { get; set; }
+
+        public int RoleID { get; set; }
+
+        [ForeignKey("RoleID")]
+        public virtual Role Role { get; set; }
     }
 }

@@ -20,5 +20,10 @@ namespace Club_27.Models
 
         [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Phone Number.")]
         public long Phone { get; set; }
+
+        public int RoleID { get; set; }
+
+        [ForeignKey ("RoleID")]
+        public virtual Role Role { get; set; }
     }
 }
