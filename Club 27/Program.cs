@@ -1,10 +1,12 @@
 using Club_27.Models;
-//using Club_27.Services;
+using Club_27.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using NLog;
 using NLog.Web;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Club_27;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -14,8 +16,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 //builder.Services.AddDbContext<Club27DBContext>(options =>    options.UseSqlServer(connectionString));;
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<Club27DBContext>();;
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddEntityFrameworkStores<Club27DBContext>();;
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
+    .AddEntityFrameworkStores<Club27DBContext>();
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
 var connectionString = builder.Configuration.GetConnectionString("Club_27ContextConnection");;
 
 //builder.Services.AddDbContext<Club27DBContext>(options =>    options.UseSqlServer(connectionString));;
@@ -32,10 +38,11 @@ builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
 builder.Host.UseNLog();
 
 // Dependency Injection
-//builder.Services.AddScoped<EmployeeMasterSL>();
-//builder.Services.AddScoped<ActivityMasterSL>();
-//builder.Services.AddScoped<EnrollmentSL>();
+builder.Services.AddScoped<EmployeeMasterSL>();
+builder.Services.AddScoped<ActivityMasterSL>();
+builder.Services.AddScoped<EnrollmentSL>();
 
+builder.Services.AddRazorPages();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
@@ -66,6 +73,7 @@ app.UseRouting();
 app.UseAuthentication();;
 
 app.UseAuthorization();
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
