@@ -5,12 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Club27.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Club_27.Models
 {
-    public class Club27DBContext : DbContext
+    public class Club27DBContext : IdentityDbContext
     {
         public Club27DBContext(DbContextOptions<Club27DBContext> options) : base(options)
         {
@@ -36,10 +36,10 @@ namespace Club_27.Models
         public DbSet<ActivityMaster> ActivityMasters { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<EmployeeMaster> EmployeeMasters { get; set; }
-        public DbSet<User> Users { get; set; }
+        //public DbSet<User> Users { get; set; }
         public DbSet<Venue> Venues { get; set; }
         public DbSet<Booking> Bookings { get; set; }
-        public DbSet<Role> Roles { get; set; }
+        //public DbSet<Role> Roles { get; set; }
 
     }
 }

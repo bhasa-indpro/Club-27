@@ -12,7 +12,7 @@ namespace Club_27.Models
     public class Venue
     {
         [Key]
-        public int VenueID { get; set; }
+        public int ID { get; set; }
 
         [Required]
         public string VenueName { get; set; }
@@ -21,5 +21,8 @@ namespace Club_27.Models
                 
         [ForeignKey ("ActivityID")]
         public virtual ActivityMaster Activity { get; set; }
+
+        [Required]
+        public int MaxLimit { get; set; }
     }
 }

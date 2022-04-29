@@ -1,16 +1,28 @@
 using Club_27.Models;
-using Club_27.Services;
+//using Club_27.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using NLog;
 using NLog.Web;
+using Microsoft.AspNetCore.Identity;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionstring = builder.Configuration.GetConnectionString("Club27Connection");
-builder.Services.AddDbContext<Club27DBContext>(x => x.UseSqlServer(connectionstring));
+//var connectionString = builder.Configuration.GetConnectionString("Club27DBContextConnection");;
+
+//builder.Services.AddDbContext<Club27DBContext>(options =>    options.UseSqlServer(connectionString));;
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<Club27DBContext>();;
+var connectionString = builder.Configuration.GetConnectionString("Club_27ContextConnection");;
+
+//builder.Services.AddDbContext<Club27DBContext>(options =>    options.UseSqlServer(connectionString));;
+
+//var connectionstring = builder.Configuration.GetConnectionString("Club27Connection");
+
+builder.Services.AddDbContext<Club27DBContext>(x => x.UseSqlServer(connectionString));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -20,9 +32,9 @@ builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
 builder.Host.UseNLog();
 
 // Dependency Injection
-builder.Services.AddScoped<EmployeeMasterSL>();
-builder.Services.AddScoped<ActivityMasterSL>();
-builder.Services.AddScoped<EnrollmentSL>();
+//builder.Services.AddScoped<EmployeeMasterSL>();
+//builder.Services.AddScoped<ActivityMasterSL>();
+//builder.Services.AddScoped<EnrollmentSL>();
 
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
@@ -51,6 +63,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 
