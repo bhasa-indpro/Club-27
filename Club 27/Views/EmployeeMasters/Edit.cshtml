@@ -29,7 +29,7 @@
                 <input asp-for="Phone" class="form-control" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
-            <div>
+           @* <div>
                 Select Role
             </div>
             <br>
@@ -40,7 +40,7 @@
                         <option value="@item.ID">@item.RoleName</option>
                     }
        </select>
-       <br />
+       <br />*@
        <br />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
