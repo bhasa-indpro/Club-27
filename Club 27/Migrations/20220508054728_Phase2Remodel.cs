@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Club_27.Migrations
 {
-    public partial class Phase2Identity : Migration
+    public partial class Phase2Remodel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -77,14 +77,34 @@ namespace Club_27.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Teams",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MaxLimit = table.Column<int>(type: "int", nullable: false),
+                    ActivityID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teams", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Teams_ActivityMasters_ActivityID",
+                        column: x => x.ActivityID,
+                        principalTable: "ActivityMasters",
+                        principalColumn: "ActivityID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Venues",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     VenueName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ActivityID = table.Column<int>(type: "int", nullable: true),
-                    MaxLimit = table.Column<int>(type: "int", nullable: false)
+                    ActivityID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -93,7 +113,8 @@ namespace Club_27.Migrations
                         name: "FK_Venues_ActivityMasters_ActivityID",
                         column: x => x.ActivityID,
                         principalTable: "ActivityMasters",
-                        principalColumn: "ActivityID");
+                        principalColumn: "ActivityID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -142,8 +163,8 @@ namespace Club_27.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -187,8 +208,8 @@ namespace Club_27.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -203,40 +224,6 @@ namespace Club_27.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bookings",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BookedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    VenueID = table.Column<int>(type: "int", nullable: false),
-                    ActivityID = table.Column<int>(type: "int", nullable: false),
-                    ActvityID = table.Column<int>(type: "int", nullable: true),
-                    EmployeeID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bookings", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Bookings_ActivityMasters_ActvityID",
-                        column: x => x.ActvityID,
-                        principalTable: "ActivityMasters",
-                        principalColumn: "ActivityID");
-                    table.ForeignKey(
-                        name: "FK_Bookings_EmployeeMasters_EmployeeID",
-                        column: x => x.EmployeeID,
-                        principalTable: "EmployeeMasters",
-                        principalColumn: "EmployeeID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Bookings_Venues_VenueID",
-                        column: x => x.VenueID,
-                        principalTable: "Venues",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Enrollments",
                 columns: table => new
                 {
@@ -244,7 +231,7 @@ namespace Club_27.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmployeeID = table.Column<int>(type: "int", nullable: false),
                     ActivityID = table.Column<int>(type: "int", nullable: false),
-                    VenueID = table.Column<int>(type: "int", nullable: false)
+                    TeamID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -262,7 +249,34 @@ namespace Club_27.Migrations
                         principalColumn: "EmployeeID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Enrollments_Venues_VenueID",
+                        name: "FK_Enrollments_Teams_TeamID",
+                        column: x => x.TeamID,
+                        principalTable: "Teams",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bookings",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BookedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    VenueID = table.Column<int>(type: "int", nullable: false),
+                    ActivityID = table.Column<int>(type: "int", nullable: false),
+                    ActvityID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bookings", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Bookings_ActivityMasters_ActvityID",
+                        column: x => x.ActvityID,
+                        principalTable: "ActivityMasters",
+                        principalColumn: "ActivityID");
+                    table.ForeignKey(
+                        name: "FK_Bookings_Venues_VenueID",
                         column: x => x.VenueID,
                         principalTable: "Venues",
                         principalColumn: "ID",
@@ -320,11 +334,6 @@ namespace Club_27.Migrations
                 column: "ActvityID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bookings_EmployeeID",
-                table: "Bookings",
-                column: "EmployeeID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Bookings_VenueID",
                 table: "Bookings",
                 column: "VenueID");
@@ -348,9 +357,14 @@ namespace Club_27.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Enrollments_VenueID",
+                name: "IX_Enrollments_TeamID",
                 table: "Enrollments",
-                column: "VenueID");
+                column: "TeamID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Teams_ActivityID",
+                table: "Teams",
+                column: "ActivityID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Venues_ActivityID",
@@ -388,10 +402,13 @@ namespace Club_27.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
+                name: "Venues");
+
+            migrationBuilder.DropTable(
                 name: "EmployeeMasters");
 
             migrationBuilder.DropTable(
-                name: "Venues");
+                name: "Teams");
 
             migrationBuilder.DropTable(
                 name: "ActivityMasters");

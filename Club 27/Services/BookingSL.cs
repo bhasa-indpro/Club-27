@@ -5,45 +5,44 @@ using System.Text;
 using System.Threading.Tasks;
 using Club_27.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Club_27.Services
 {
-    public class EmployeeMasterSL
+    public class BookingSL
     {
         private readonly Club27DBContext _context;
 
-        public EmployeeMasterSL(Club27DBContext context)
+        public BookingSL(Club27DBContext context)
         {
             _context = context;
         }
 
-       
 
-        public bool CreateEmployee(EmployeeMaster employeeMaster)
+
+        public bool CreateBooking(Booking booking)
         {
             try
             {
-                _context.EmployeeMasters.Add(employeeMaster);
+                _context.Bookings.Add(booking);
                 _context.SaveChanges();
                 return true;
 
             }
-            catch (DbUpdateException ex)
+            catch (Exception ex)
             {
                 return false;
             }
         }
 
-        public bool DeleteEmployee(EmployeeMaster employeeMaster)
+        public bool DeleteBooking(Booking booking)
         {
             try
             {
 
-                var emp = _context.EmployeeMasters.Where(x => x.EmployeeID == employeeMaster.EmployeeID).FirstOrDefault();
+                var emp = _context.Bookings.Where(x => x.ID == booking.ID).FirstOrDefault();
                 if (emp != null)
                 {
-                    _context.EmployeeMasters.Remove(emp);
+                    _context.Bookings.Remove(emp);
                     _context.SaveChanges();
                     return true;
                 }
@@ -59,18 +58,18 @@ namespace Club_27.Services
             }
         }
 
-        public bool UpdateEmployee(EmployeeMaster employeeMaster)
+        public bool UpdateBooking(Booking booking)
         {
             try
             {
-                var emp = _context.EmployeeMasters.Where(x => x.EmployeeID == employeeMaster.EmployeeID).FirstOrDefault();
+                var emp = _context.Bookings.Where(x => x.ID == booking.ID).FirstOrDefault();
                 if (emp != null)
                 {
                     //EmployeeMaster oldEmp = new EmployeeMaster();
                     //oldEmp.EmployeeID = employeeMaster.EmployeeID;
-                    emp.EmployeeName = employeeMaster.EmployeeName;
-                    emp.Phone = employeeMaster.Phone;
-                    emp.Email = employeeMaster.Email;
+                    emp.BookedOn = booking.BookedOn;
+                    emp.VenueID = booking.VenueID;
+                    emp.ActivityID = booking.ActivityID;
 
                     _context.SaveChanges();
                     return true;
@@ -81,17 +80,17 @@ namespace Club_27.Services
                 }
 
             }
-            catch (DbUpdateException)
+            catch (Exception)
             {
                 return false;
             }
         }
 
-        public EmployeeMaster GetEmployee(int id)
+        public Booking GetBooking(int id)
         {
             try
             {
-                var emp = _context.EmployeeMasters.Where(x => x.EmployeeID == id).FirstOrDefault();
+                var emp = _context.Bookings.Where(x => x.ID == id).FirstOrDefault();
                 if (emp != null)
                 {
                     return emp;
@@ -107,11 +106,11 @@ namespace Club_27.Services
             }
         }
 
-        public IList<EmployeeMaster> AllEmployee()
+        public IList<Booking> AllBooking()
         {
             try
             {
-                List<EmployeeMaster> emp = _context.EmployeeMasters.ToList();
+                List<Booking> emp = _context.Bookings.ToList();
                 if (emp != null)
                 {
                     return emp;

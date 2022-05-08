@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Club_27.Models
 {
-    [Table ("Enrollments")]
+    //[Table ("Enrollment")]
     public class Enrollment
     {
         [Key]
@@ -22,9 +22,9 @@ namespace Club_27.Models
         [ForeignKey ("ActivityID")]
         public virtual ActivityMaster Activity { get; set; }
 
-        public int VenueID { get; set; }
+        public int? TeamID { get; set; }
 
-        [ForeignKey ("VenueID")]
-        public virtual Venue Venue { get; set; }
+        [ForeignKey ("TeamID")]
+        public virtual Team Team { get; set; }
     }
 }

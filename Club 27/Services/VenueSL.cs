@@ -5,45 +5,44 @@ using System.Text;
 using System.Threading.Tasks;
 using Club_27.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Club_27.Services
 {
-    public class EmployeeMasterSL
+    public class VenueSL
     {
         private readonly Club27DBContext _context;
 
-        public EmployeeMasterSL(Club27DBContext context)
+        public VenueSL(Club27DBContext context)
         {
             _context = context;
         }
 
-       
 
-        public bool CreateEmployee(EmployeeMaster employeeMaster)
+
+        public bool CreateVenue(Venue venue)
         {
             try
             {
-                _context.EmployeeMasters.Add(employeeMaster);
+                _context.Venues.Add(venue);
                 _context.SaveChanges();
                 return true;
 
             }
-            catch (DbUpdateException ex)
+            catch (Exception ex)
             {
                 return false;
             }
         }
 
-        public bool DeleteEmployee(EmployeeMaster employeeMaster)
+        public bool DeleteVenue(Venue venue)
         {
             try
             {
 
-                var emp = _context.EmployeeMasters.Where(x => x.EmployeeID == employeeMaster.EmployeeID).FirstOrDefault();
+                var emp = _context.Venues.Where(x => x.ID == venue.ID).FirstOrDefault();
                 if (emp != null)
                 {
-                    _context.EmployeeMasters.Remove(emp);
+                    _context.Venues.Remove(emp);
                     _context.SaveChanges();
                     return true;
                 }
@@ -59,18 +58,17 @@ namespace Club_27.Services
             }
         }
 
-        public bool UpdateEmployee(EmployeeMaster employeeMaster)
+        public bool UpdateVenue(Venue venue)
         {
             try
             {
-                var emp = _context.EmployeeMasters.Where(x => x.EmployeeID == employeeMaster.EmployeeID).FirstOrDefault();
+                var emp = _context.Venues.Where(x => x.ID == venue.ID).FirstOrDefault();
                 if (emp != null)
                 {
                     //EmployeeMaster oldEmp = new EmployeeMaster();
                     //oldEmp.EmployeeID = employeeMaster.EmployeeID;
-                    emp.EmployeeName = employeeMaster.EmployeeName;
-                    emp.Phone = employeeMaster.Phone;
-                    emp.Email = employeeMaster.Email;
+                    emp.VenueName = venue.VenueName;
+                    emp.ActivityID = venue.ActivityID;
 
                     _context.SaveChanges();
                     return true;
@@ -81,17 +79,17 @@ namespace Club_27.Services
                 }
 
             }
-            catch (DbUpdateException)
+            catch (Exception)
             {
                 return false;
             }
         }
 
-        public EmployeeMaster GetEmployee(int id)
+        public Venue GetVenue(int id)
         {
             try
             {
-                var emp = _context.EmployeeMasters.Where(x => x.EmployeeID == id).FirstOrDefault();
+                var emp = _context.Venues.Where(x => x.ID == id).FirstOrDefault();
                 if (emp != null)
                 {
                     return emp;
@@ -107,11 +105,11 @@ namespace Club_27.Services
             }
         }
 
-        public IList<EmployeeMaster> AllEmployee()
+        public IList<Venue> AllVenue()
         {
             try
             {
-                List<EmployeeMaster> emp = _context.EmployeeMasters.ToList();
+                List<Venue> emp = _context.Venues.ToList();
                 if (emp != null)
                 {
                     return emp;

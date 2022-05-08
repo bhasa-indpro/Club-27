@@ -28,7 +28,7 @@ namespace Club_27.Controllers
         // GET: EmployeeActivities
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Enrollments.Include(x => x.Employee).Include(x => x.Activity).Include(x => x.Venue).ToListAsync());
+            return View(await _context.Enrollments.Include(x => x.Employee).Include(x => x.Activity).Include(x => x.Team).ToListAsync());
         }
 
         // GET: EmployeeActivities/Details/5
@@ -39,7 +39,7 @@ namespace Club_27.Controllers
                 return NotFound();
             }
 
-            var employeeActivity = await _context.Enrollments.Include(x => x.Activity).Include(x => x.Venue).Include(x => x.Employee).FirstOrDefaultAsync(m => m.EnrollmentID == id);
+            var employeeActivity = await _context.Enrollments.Include(x => x.Activity).Include(x => x.Team).Include(x => x.Employee).FirstOrDefaultAsync(m => m.EnrollmentID == id);
             
             if (employeeActivity == null)
             {
@@ -57,7 +57,7 @@ namespace Club_27.Controllers
         {
             var TypeDropDown1 = _context.EmployeeMasters.ToList();
             var TypeDropDown2 = _context.ActivityMasters.ToList();
-            var TypeDropDown3 = _context.Venues.ToList();
+            var TypeDropDown3 = _context.Teams.ToList();
 
             ViewBag.TypeDropDown1 = TypeDropDown1;
             ViewBag.TypeDropDown2 = TypeDropDown2;
@@ -112,7 +112,7 @@ namespace Club_27.Controllers
                 }
                 var TypeDropDown1 = _context.EmployeeMasters.ToList();
                 var TypeDropDown2 = _context.ActivityMasters.ToList();
-                var TypeDropDown3 = _context.Venues.ToList();
+                var TypeDropDown3 = _context.Teams.ToList();
 
                 ViewBag.TypeDropDown1 = TypeDropDown1;
                 ViewBag.TypeDropDown2 = TypeDropDown2;
@@ -228,7 +228,7 @@ namespace Club_27.Controllers
             }
             var TypeDropDown1 = _context.EmployeeMasters.ToList();
             var TypeDropDown2 = _context.ActivityMasters.ToList();
-            var TypeDropDown3 = _context.Venues.ToList();
+            var TypeDropDown3 = _context.Teams.ToList();
 
             ViewBag.TypeDropDown1 = TypeDropDown1;
             ViewBag.TypeDropDown2 = TypeDropDown2;
@@ -251,7 +251,7 @@ namespace Club_27.Controllers
             {
                 var TypeDropDown1 = _context.EmployeeMasters.ToList();
                 var TypeDropDown2 = _context.ActivityMasters.ToList();
-                var TypeDropDown3 = _context.Venues.ToList();
+                var TypeDropDown3 = _context.Teams.ToList();
 
                 ViewBag.TypeDropDown1 = TypeDropDown1;
                 ViewBag.TypeDropDown2 = TypeDropDown2;

@@ -1,4 +1,5 @@
 ﻿using Club_27.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Club_27.Services
 {
@@ -22,7 +23,7 @@ namespace Club_27.Services
                 return true;
 
             }
-            catch (Exception ex)
+            catch (DbUpdateException)
             {
                 return false;
             }
@@ -59,7 +60,7 @@ namespace Club_27.Services
                 var act = _context.ActivityMasters.Where(x => x.ActivityID == activityMaster.ActivityID).FirstOrDefault();
                 if (act != null)
                 {
-                    
+
                     act.ActivityName = activityMaster.ActivityName;
 
                     _context.SaveChanges();
@@ -71,7 +72,7 @@ namespace Club_27.Services
                 }
 
             }
-            catch (Exception)
+            catch (DbUpdateException)
             {
                 return false;
             }

@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Club_27.Models
 {
@@ -39,6 +41,8 @@ namespace Club_27.Models
         //public DbSet<User> Users { get; set; }
         public DbSet<Venue> Venues { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        //public DbSet <IdentityUser> 
         //public DbSet<Role> Roles { get; set; }
 
     }

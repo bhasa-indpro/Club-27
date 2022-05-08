@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,21 +8,15 @@ using System.Threading.Tasks;
 
 namespace Club_27.Models
 {
-    public class Booking
+    public class Team
     {
         [Key]
         public int ID { get; set; }
-                
-        public DateTime BookedOn { get; set; }
-        public int VenueID { get; set; }
-        
-        [ForeignKey ("VenueID")]
-        public virtual Venue Venue { get; set; }
-
+        [Required]
+        public string Name { get; set; }
+        public int MaxLimit { get; set; }
         public int ActivityID { get; set; }
-
-        [ForeignKey ("ActvityID")]
+        [ForeignKey ("ActivityID")]
         public virtual ActivityMaster Activity { get; set; }
-        
     }
 }

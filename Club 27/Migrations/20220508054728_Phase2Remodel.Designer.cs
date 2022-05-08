@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Club_27.Migrations
 {
     [DbContext(typeof(Club27DBContext))]
-    [Migration("20220428060435_phase2IdentityAgain")]
-    partial class phase2IdentityAgain
+    [Migration("20220508054728_Phase2Remodel")]
+    partial class Phase2Remodel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -61,17 +61,12 @@ namespace Club_27.Migrations
                     b.Property<DateTime>("BookedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EmployeeID")
-                        .HasColumnType("int");
-
                     b.Property<int>("VenueID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.HasIndex("ActvityID");
-
-                    b.HasIndex("EmployeeID");
 
                     b.HasIndex("VenueID");
 
@@ -118,19 +113,44 @@ namespace Club_27.Migrations
                     b.Property<int>("EmployeeID")
                         .HasColumnType("int");
 
-                    b.Property<int>("VenueID")
+                    b.Property<int>("TeamID")
                         .HasColumnType("int");
 
                     b.HasKey("EnrollmentID");
 
                     b.HasIndex("ActivityID");
 
-                    b.HasIndex("VenueID");
+                    b.HasIndex("TeamID");
 
                     b.HasIndex("EmployeeID", "ActivityID")
                         .IsUnique();
 
                     b.ToTable("Enrollments");
+                });
+
+            modelBuilder.Entity("Club_27.Models.Team", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<int>("ActivityID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxLimit")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ActivityID");
+
+                    b.ToTable("Teams");
                 });
 
             modelBuilder.Entity("Club_27.Models.Venue", b =>
@@ -141,10 +161,7 @@ namespace Club_27.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int?>("ActivityID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxLimit")
+                    b.Property<int>("ActivityID")
                         .HasColumnType("int");
 
                     b.Property<string>("VenueName")
@@ -303,12 +320,10 @@ namespace Club_27.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -345,12 +360,10 @@ namespace Club_27.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -366,12 +379,6 @@ namespace Club_27.Migrations
                         .WithMany()
                         .HasForeignKey("ActvityID");
 
-                    b.HasOne("Club_27.Models.EmployeeMaster", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Club_27.Models.Venue", "Venue")
                         .WithMany()
                         .HasForeignKey("VenueID")
@@ -379,8 +386,6 @@ namespace Club_27.Migrations
                         .IsRequired();
 
                     b.Navigation("Activity");
-
-                    b.Navigation("Employee");
 
                     b.Navigation("Venue");
                 });
@@ -399,9 +404,9 @@ namespace Club_27.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Club_27.Models.Venue", "Venue")
+                    b.HasOne("Club_27.Models.Team", "Team")
                         .WithMany()
-                        .HasForeignKey("VenueID")
+                        .HasForeignKey("TeamID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -409,14 +414,27 @@ namespace Club_27.Migrations
 
                     b.Navigation("Employee");
 
-                    b.Navigation("Venue");
+                    b.Navigation("Team");
+                });
+
+            modelBuilder.Entity("Club_27.Models.Team", b =>
+                {
+                    b.HasOne("Club_27.Models.ActivityMaster", "Activity")
+                        .WithMany()
+                        .HasForeignKey("ActivityID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Activity");
                 });
 
             modelBuilder.Entity("Club_27.Models.Venue", b =>
                 {
                     b.HasOne("Club_27.Models.ActivityMaster", "Activity")
                         .WithMany()
-                        .HasForeignKey("ActivityID");
+                        .HasForeignKey("ActivityID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Activity");
                 });
