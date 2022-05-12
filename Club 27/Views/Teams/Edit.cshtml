@@ -1,4 +1,4 @@
-﻿@model Club_27.Models.Enrollment
+﻿@model Club_27.Models.Team
 
 @{
     ViewData["Title"] = "Edit";
@@ -9,30 +9,7 @@
 
 <h4>Team</h4>
 <hr />
-@*<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="EnrollmentID" />
 
-            <div class="form-group">
-                <label asp-for="EmployeeID" class="control-label"></label>
-                <input asp-for="EmployeeID" class="form-control" />
-                <span asp-validation-for="EmployeeID" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="ActivityID" class="control-label"></label>
-                <input asp-for="ActivityID" class="form-control" />
-                <span asp-validation-for="ActivityID" class="text-danger"></span>
-            </div>
-                        
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>*@
 <form method ="post">
   <br />
   
@@ -44,7 +21,7 @@
    <div class="form-group">
                 <label asp-for="MaxLimit" class="control-label"></label>
                 <input asp-for="MaxLimit" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <span asp-validation-for="MaxLimit" class="text-danger"></span>
   </div>
        <br />
        <br />
@@ -63,7 +40,7 @@
    </button>
 
     <p style = "color:red;">
-           @Html.Label("",Convert.ToString((string)ViewBag.DuplicateError))
+           @Html.Label("",Convert.ToString((string)ViewBag.Error))
        </p> 
 </form>
 

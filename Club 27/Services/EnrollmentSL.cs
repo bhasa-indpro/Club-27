@@ -17,22 +17,34 @@ namespace Club_27.Services
         public string CreateEnrollment(Enrollment employeeActivity)
         {
             var count = _context.Enrollments.Where(x => x.EmployeeID == employeeActivity.EmployeeID).Count();
-            if (count < 4)
-            {
-                try
-                {
-                    _context.Enrollments.Add(employeeActivity);
-                    _context.SaveChanges();
-                    return "Success";
+            var teamMaxCount = _context.Enrollments.Where(x => x.TeamID == employeeActivity.TeamID)
+                                .Where(x => x.ActivityID == employeeActivity.ActivityID).Count();
 
-                }
-                catch (DbUpdateException)
+            var currentTeam = _context.Teams.Where(x => x.ID == employeeActivity.TeamID)
+                                .Where(x => x.ActivityID == employeeActivity.ActivityID).FirstOrDefault();
+            if (teamMaxCount < currentTeam.MaxLimit)
+            {
+                if (count < 4)
                 {
-                    return "Error - Duplicate Enrollment";
+                    try
+                    {
+                        _context.Enrollments.Add(employeeActivity);
+                        _context.SaveChanges();
+                        return "Success";
+
+                    }
+                    catch (DbUpdateException)
+                    {
+                        return "Error - Duplicate Enrollment";
+                    }
                 }
+                else
+                    return "Error - Maximum of 4 activities only";
             }
             else
-                return "Error - Maximum of 4 activities only";
+            {
+                return "Error - Team already full";
+            }
 
         }
 
@@ -66,14 +78,26 @@ namespace Club_27.Services
                 //var enr = _context.Enrollments.Where(x => x.EnrollmentID == employeeActivity.EnrollmentID)
                 //            .Include(x => x.Employee).Include(x => x.Activity).Include(x => x.Team).FirstOrDefault();
                 //var count = _context.Enrollments.Where(x => x.EmployeeID == employeeActivity.EmployeeID).Count();
-                var enr = GetEnrollment(id);
 
-                enr.EmployeeID = employeeActivity.EmployeeID;
-                enr.ActivityID = employeeActivity.ActivityID;                
-                enr.TeamID = employeeActivity.TeamID;
+                var teamMaxCount = _context.Enrollments.Where(x => x.TeamID == employeeActivity.TeamID)
+                                .Where(x => x.ActivityID == employeeActivity.ActivityID).Count();
 
-                _context.SaveChanges();
-                return "Success";
+                var currentTeam = _context.Teams.Where(x => x.ID == employeeActivity.TeamID)
+                                    .Where(x => x.ActivityID == employeeActivity.ActivityID).FirstOrDefault();
+
+                if (teamMaxCount < currentTeam.MaxLimit)
+                {
+                    var enr = GetEnrollment(id);
+
+                    enr.EmployeeID = employeeActivity.EmployeeID;
+                    enr.ActivityID = employeeActivity.ActivityID;
+                    enr.TeamID = employeeActivity.TeamID;
+
+                    _context.SaveChanges();
+                    return "Success";
+                }
+                else
+                    return "Error - Team already full";
             }
             catch (DbUpdateException)
             {

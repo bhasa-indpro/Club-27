@@ -28,7 +28,7 @@ namespace Club_27.Models
             modelBuilder.Entity<ActivityMaster>().HasIndex(x => new { x.ActivityName }).IsUnique(true);
             modelBuilder.Entity<Venue>().HasIndex(x => new { x.ActivityID }).IsUnique(true);
             modelBuilder.Entity<Booking>().HasIndex(x => new { x.BookedOn }).IsUnique(true);
-            modelBuilder.Entity<Team>().HasIndex(x => new { x.ActivityID }).IsUnique(true);
+            modelBuilder.Entity<Team>().HasIndex(x => new { x.Name , x.ActivityID }).IsUnique(true);
 
             //modelBuilder.Entity<ActivityMaster>().WillCascadeOnDelete(false);
 

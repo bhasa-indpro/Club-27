@@ -30,7 +30,7 @@ var connectionString = builder.Configuration.GetConnectionString("Club_27Context
 
 builder.Services.AddDbContext<Club27DBContext>(x => x.UseSqlServer(connectionString));
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 // NLog: Setup NLog for Dependency injection
 builder.Logging.ClearProviders();

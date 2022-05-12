@@ -124,9 +124,11 @@ namespace Club_27.Controllers
             if (result == "Success")
                 return RedirectToAction("Index");
             else if (result == "Error - Duplicate Enrollment")
-                ViewBag.DuplicateError = result;
+                ViewBag.Error = result;
             else if (result == "Error - Maximum of 4 activities only")
-                ViewBag.OverlimitError = result;
+                ViewBag.Error = result;
+            else if (result == "Error - Team already full")
+                ViewBag.Error = result;
 
             var TypeDropDown1 = _context.EmployeeMasters.ToList();
             var TypeDropDown2 = _context.ActivityMasters.ToList();
@@ -307,7 +309,9 @@ namespace Club_27.Controllers
             if (result == "Success")
                 return RedirectToAction("Index");
             else if (result == "Error - Duplicate Enrollment")
-                ViewBag.DuplicateError = result;
+                ViewBag.Error = result;
+            else if (result == "Error - Team already full")
+                ViewBag.Error = result;
             return View(employeeActivity);
         }
 
