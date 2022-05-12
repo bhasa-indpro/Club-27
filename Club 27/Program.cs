@@ -41,6 +41,7 @@ builder.Host.UseNLog();
 builder.Services.AddScoped<EmployeeMasterSL>();
 builder.Services.AddScoped<ActivityMasterSL>();
 builder.Services.AddScoped<EnrollmentSL>();
+builder.Services.AddScoped<TeamSL>();
 
 builder.Services.AddRazorPages();
 builder.Services.AddSwaggerGen();

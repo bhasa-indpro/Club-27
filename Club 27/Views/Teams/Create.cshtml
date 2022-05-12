@@ -1,10 +1,8 @@
-﻿@model Club_27.Models.Enrollment
+﻿@model Club_27.Models.Team
 
 @{
     ViewData["Title"] = "Create";
-    var employeeListItem = ViewBag.TypeDropDown1;
-    var activityListItem = ViewBag.TypeDropDown2;
-    var teamListItem = ViewBag.TypeDropDown3;
+    var activityListItem = ViewBag.TypeDropDown;
 }
 
 @*<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -20,29 +18,23 @@
 <form method ="post">
   <br />
     
-  <select asp-for ="EmployeeID">
-           <option selected>--Employee--</option>
-           @foreach (var item in (IEnumerable<EmployeeMaster>)employeeListItem)
-                    {
-                        <option value="@item.EmployeeID">@item.EmployeeName</option>
-                    }
-       </select>
-    <br />
-    <br />
-        <select asp-for ="ActivityID">
+  <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+  </div>
+   <div class="form-group">
+                <label asp-for="MaxLimit" class="control-label"></label>
+                <input asp-for="MaxLimit" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+  </div>
+       <br />
+       <br />
+       <select asp-for ="ActivityID">
            <option selected>--Activity--</option>
-            @foreach (var item in (IEnumerable<ActivityMaster>)activityListItem)
+            @foreach (var item in activityListItem)
                     {
                         <option value="@item.ActivityID">@item.ActivityName</option>
-                    }
-       </select>
-       <br />
-       <br />
-       <select asp-for ="TeamID">
-           <option selected>--Team--</option>
-            @foreach (var item in (IEnumerable<Team>)teamListItem)
-                    {
-                        <option value="@item.ID">@item.Name</option>
                     }
        </select>
        <br />

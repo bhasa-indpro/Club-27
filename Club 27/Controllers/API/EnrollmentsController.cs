@@ -53,7 +53,7 @@ namespace Club_27.Controllers.API
             }
             else
             {
-                enrollmentSL.UpdateEnrollment(employeeActivity);
+                enrollmentSL.UpdateEnrollment(id , employeeActivity);
                 return Ok();
             }
         }

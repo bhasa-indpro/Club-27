@@ -24,6 +24,7 @@ namespace Club_27.Models
 
         [ForeignKey ("ActvityID")]
         public virtual ActivityMaster Activity { get; set; }
+        public string Fixture { get; set; }
         
     }
 }

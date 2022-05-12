@@ -8,6 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Teams\Create.cshtml" />
+    <Content Remove="Views\Teams\Delete.cshtml" />
+    <Content Remove="Views\Teams\Details.cshtml" />
+    <Content Remove="Views\Teams\Edit.cshtml" />
+    <Content Remove="Views\Teams\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\ActivityMasters\Create.cshtml" />
     <None Include="Views\ActivityMasters\Delete.cshtml" />
     <None Include="Views\ActivityMasters\Details.cshtml" />
@@ -31,6 +39,11 @@
     <None Include="Views\Shared\Error.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views\Teams\Create.cshtml" />
+    <None Include="Views\Teams\Delete.cshtml" />
+    <None Include="Views\Teams\Details.cshtml" />
+    <None Include="Views\Teams\Edit.cshtml" />
+    <None Include="Views\Teams\Index.cshtml" />
     <None Include="Views\_Layout.cshtml" />
     <None Include="Views\_ViewImports.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />

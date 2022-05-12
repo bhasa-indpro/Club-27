@@ -1,4 +1,5 @@
 ﻿using Club_27.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Club_27.Services
 {
@@ -13,26 +14,32 @@ namespace Club_27.Services
 
 
 
-        public bool CreateEnrollment(Enrollment employeeActivity)
+        public string CreateEnrollment(Enrollment employeeActivity)
         {
-            try
+            var count = _context.Enrollments.Where(x => x.EmployeeID == employeeActivity.EmployeeID).Count();
+            if (count < 4)
             {
-                _context.Enrollments.Add(employeeActivity);
-                _context.SaveChanges();
-                return true;
+                try
+                {
+                    _context.Enrollments.Add(employeeActivity);
+                    _context.SaveChanges();
+                    return "Success";
 
+                }
+                catch (DbUpdateException)
+                {
+                    return "Error - Duplicate Enrollment";
+                }
             }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            else
+                return "Error - Maximum of 4 activities only";
+
         }
 
         public bool DeleteEnrollment(Enrollment employeeActivity)
         {
             try
             {
-
                 var enr = _context.Enrollments.Where(x => x.EnrollmentID == employeeActivity.EnrollmentID).FirstOrDefault();
                 if (enr != null)
                 {
@@ -52,30 +59,25 @@ namespace Club_27.Services
             }
         }
 
-        public bool UpdateEnrollment(Enrollment employeeActivity)
+        public string UpdateEnrollment(int id, Enrollment employeeActivity)
         {
             try
             {
-                var enr = _context.Enrollments.Where(x => x.EnrollmentID == employeeActivity.EnrollmentID).FirstOrDefault();
-                if (enr != null)
-                {
-                    
-                    enr.ActivityID = employeeActivity.ActivityID;
-                    enr.EmployeeID = employeeActivity.EmployeeID;
-                    enr.TeamID = employeeActivity.TeamID;
+                //var enr = _context.Enrollments.Where(x => x.EnrollmentID == employeeActivity.EnrollmentID)
+                //            .Include(x => x.Employee).Include(x => x.Activity).Include(x => x.Team).FirstOrDefault();
+                //var count = _context.Enrollments.Where(x => x.EmployeeID == employeeActivity.EmployeeID).Count();
+                var enr = GetEnrollment(id);
 
-                    _context.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                enr.EmployeeID = employeeActivity.EmployeeID;
+                enr.ActivityID = employeeActivity.ActivityID;                
+                enr.TeamID = employeeActivity.TeamID;
 
+                _context.SaveChanges();
+                return "Success";
             }
-            catch (Exception)
+            catch (DbUpdateException)
             {
-                return false;
+                return "Error - Duplicate Enrollment";
             }
         }
 
@@ -103,7 +105,7 @@ namespace Club_27.Services
         {
             try
             {
-                List<Enrollment> enr = _context.Enrollments.ToList();
+                List<Enrollment> enr = _context.Enrollments.Include(x => x.Employee).Include(x => x.Activity).Include(x => x.Team).ToList();
                 if (enr != null)
                 {
                     return enr;
