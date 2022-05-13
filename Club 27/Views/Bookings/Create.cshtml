@@ -1,8 +1,9 @@
-﻿@model Club_27.Models.Team
+﻿@model Club_27.Models.Booking
 
 @{
     ViewData["Title"] = "Create";
-    var activityListItem = ViewBag.TypeDropDown;
+    var venueListItem = ViewBag.venueDropDown;
+    var activityListItem = ViewBag.activityDropDown;
 }
 
 @*<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -12,31 +13,41 @@
 
 <h1>Create</h1>
 
-<h4>Team</h4>
+<h4>Booking</h4>
 <hr />
 
 <form method ="post">
   <br />
     
-  <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-  </div>
-   <div class="form-group">
-                <label asp-for="MaxLimit" class="control-label"></label>
-                <input asp-for="MaxLimit" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-  </div>
-       <br />
-       <br />
-       <select asp-for ="ActivityID">
+  <select asp-for ="VenueID">
+           <option selected>--Venue--</option>
+           @foreach (var item in venueListItem)
+                    {
+                        <option value="@item.ID">@item.VenueName</option>
+                    }
+       </select>
+    <br />
+    <br />
+        <select asp-for ="ActivityID">
            <option selected>--Activity--</option>
             @foreach (var item in activityListItem)
                     {
                         <option value="@item.ActivityID">@item.ActivityName</option>
                     }
        </select>
+       <br />
+       <br />
+       <div class="form-group">
+                <label asp-for="BookedOn" class="control-label"></label>
+                <input asp-for="BookedOn" class="form-control" />
+                <span asp-validation-for="BookedOn" class="text-danger"></span>
+  </div>
+  <br />
+       <div class="form-group">
+                <label asp-for="Fixture" class="control-label"></label>
+                <input asp-for="Fixture" class="form-control" />
+                <span asp-validation-for="Fixture" class="text-danger"></span>
+  </div>
        <br />
        <br />
 
@@ -50,7 +61,7 @@
    </button>
 
    <p style = "color:red;">
-           @Html.Label("",Convert.ToString((string)ViewBag.DuplicateError))
+           @Html.Label("",Convert.ToString((string)ViewBag.Error))
        </p> 
 
        <p style = "color:red;">

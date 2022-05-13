@@ -8,11 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Bookings\Create.cshtml" />
+    <Content Remove="Views\Bookings\Delete.cshtml" />
+    <Content Remove="Views\Bookings\Details.cshtml" />
+    <Content Remove="Views\Bookings\Edit.cshtml" />
+    <Content Remove="Views\Bookings\Index.cshtml" />
     <Content Remove="Views\Teams\Create.cshtml" />
     <Content Remove="Views\Teams\Delete.cshtml" />
     <Content Remove="Views\Teams\Details.cshtml" />
     <Content Remove="Views\Teams\Edit.cshtml" />
     <Content Remove="Views\Teams\Index.cshtml" />
+    <Content Remove="Views\Venues\Create.cshtml" />
+    <Content Remove="Views\Venues\Delete.cshtml" />
+    <Content Remove="Views\Venues\Details.cshtml" />
+    <Content Remove="Views\Venues\Edit.cshtml" />
+    <Content Remove="Views\Venues\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +31,11 @@
     <None Include="Views\ActivityMasters\Details.cshtml" />
     <None Include="Views\ActivityMasters\Edit.cshtml" />
     <None Include="Views\ActivityMasters\Index.cshtml" />
+    <None Include="Views\Bookings\Create.cshtml" />
+    <None Include="Views\Bookings\Delete.cshtml" />
+    <None Include="Views\Bookings\Details.cshtml" />
+    <None Include="Views\Bookings\Edit.cshtml" />
+    <None Include="Views\Bookings\Index.cshtml" />
     <None Include="Views\EmployeeMasters\Create.cshtml" />
     <None Include="Views\EmployeeMasters\Delete.cshtml" />
     <None Include="Views\EmployeeMasters\Details.cshtml" />
@@ -44,6 +59,11 @@
     <None Include="Views\Teams\Details.cshtml" />
     <None Include="Views\Teams\Edit.cshtml" />
     <EmbeddedResource Include="Views\Teams\Index.cshtml" />
+    <EmbeddedResource Include="Views\Venues\Index.cshtml" />
+    <None Include="Views\Venues\Create.cshtml" />
+    <None Include="Views\Venues\Delete.cshtml" />
+    <None Include="Views\Venues\Details.cshtml" />
+    <None Include="Views\Venues\Edit.cshtml" />
     <None Include="Views\_Layout.cshtml" />
     <None Include="Views\_ViewImports.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />

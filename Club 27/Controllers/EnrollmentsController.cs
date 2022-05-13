@@ -19,11 +19,17 @@ namespace Club_27.Controllers
 
         private readonly ILogger<EnrollmentsController> _logger;
         private readonly EnrollmentSL _enrollmentSL;
+        private readonly ActivityMasterSL _activityMasterSL;
+        private readonly EmployeeMasterSL _employeeMasterSL;
+        private readonly TeamSL _teamSL;
 
-        public EnrollmentsController(Club27DBContext context, ILogger<EnrollmentsController> logger, EnrollmentSL enrollmentSL)
+        public EnrollmentsController(Club27DBContext context, ILogger<EnrollmentsController> logger, EnrollmentSL enrollmentSL, EmployeeMasterSL employeeMasterSL, TeamSL teamSL, ActivityMasterSL activityMasterSL)
         {
             _context = context;
             _enrollmentSL = enrollmentSL;
+            _activityMasterSL = activityMasterSL;
+            _employeeMasterSL = employeeMasterSL;
+            _teamSL = teamSL;
             _logger = logger;
             _logger.LogDebug(1, "NLog injected into HomeController");
         }
@@ -64,9 +70,9 @@ namespace Club_27.Controllers
         // GET: EmployeeActivities/Create
         public IActionResult Create()
         {
-            var TypeDropDown1 = _context.EmployeeMasters.ToList();
-            var TypeDropDown2 = _context.ActivityMasters.ToList();
-            var TypeDropDown3 = _context.Teams.ToList();
+            var TypeDropDown1 = _employeeMasterSL.AllEmployee().ToList();
+            var TypeDropDown2 = _activityMasterSL.AllActivity().ToList();
+            var TypeDropDown3 = _teamSL.AllTeam().ToList();
 
             ViewBag.TypeDropDown1 = TypeDropDown1;
             ViewBag.TypeDropDown2 = TypeDropDown2;
@@ -130,9 +136,9 @@ namespace Club_27.Controllers
             else if (result == "Error - Team already full")
                 ViewBag.Error = result;
 
-            var TypeDropDown1 = _context.EmployeeMasters.ToList();
-            var TypeDropDown2 = _context.ActivityMasters.ToList();
-            var TypeDropDown3 = _context.Teams.ToList();
+            var TypeDropDown1 = _employeeMasterSL.AllEmployee().ToList();
+            var TypeDropDown2 = _activityMasterSL.AllActivity().ToList();
+            var TypeDropDown3 = _teamSL.AllTeam().ToList();
 
             ViewBag.TypeDropDown1 = TypeDropDown1;
             ViewBag.TypeDropDown2 = TypeDropDown2;
@@ -245,10 +251,10 @@ namespace Club_27.Controllers
             //    return NotFound();
             //}
             var obj = _enrollmentSL.GetEnrollment(id);
-            
-            var TypeDropDown1 = _context.EmployeeMasters.ToList();
-            var TypeDropDown2 = _context.ActivityMasters.ToList();
-            var TypeDropDown3 = _context.Teams.ToList();
+
+            var TypeDropDown1 = _employeeMasterSL.AllEmployee().ToList();
+            var TypeDropDown2 = _activityMasterSL.AllActivity().ToList();
+            var TypeDropDown3 = _teamSL.AllTeam().ToList();
 
             ViewBag.TypeDropDown1 = TypeDropDown1;
             ViewBag.TypeDropDown2 = TypeDropDown2;
@@ -269,9 +275,9 @@ namespace Club_27.Controllers
 
             //if (ModelState.IsValid)
             //{
-            var TypeDropDown1 = _context.EmployeeMasters.ToList();
-            var TypeDropDown2 = _context.ActivityMasters.ToList();
-            var TypeDropDown3 = _context.Teams.ToList();
+            var TypeDropDown1 = _employeeMasterSL.AllEmployee().ToList();
+            var TypeDropDown2 = _activityMasterSL.AllActivity().ToList();
+            var TypeDropDown3 = _teamSL.AllTeam().ToList();
 
             ViewBag.TypeDropDown1 = TypeDropDown1;
             ViewBag.TypeDropDown2 = TypeDropDown2;

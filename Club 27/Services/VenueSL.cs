@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Club_27.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Club_27.Services
 {
@@ -19,69 +20,54 @@ namespace Club_27.Services
 
 
 
-        public bool CreateVenue(Venue venue)
+        public string CreateVenue(Venue venue)
         {
             try
             {
                 _context.Venues.Add(venue);
                 _context.SaveChanges();
-                return true;
+                return "Success";
 
             }
-            catch (Exception ex)
+            catch (DbUpdateException)
             {
-                return false;
+                return "Error - Venue already exists";
             }
         }
 
         public bool DeleteVenue(Venue venue)
         {
-            try
+            var obj = _context.Venues.Where(x => x.ID == venue.ID).FirstOrDefault();
+            if (obj != null)
             {
-
-                var emp = _context.Venues.Where(x => x.ID == venue.ID).FirstOrDefault();
-                if (emp != null)
-                {
-                    _context.Venues.Remove(emp);
-                    _context.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
+                _context.Venues.Remove(obj);
+                _context.SaveChanges();
+                return true;
             }
-            catch (Exception ex)
+            else
             {
                 return false;
             }
         }
 
-        public bool UpdateVenue(Venue venue)
+        public string UpdateVenue(int id, Venue venue)
         {
             try
             {
-                var emp = _context.Venues.Where(x => x.ID == venue.ID).FirstOrDefault();
-                if (emp != null)
-                {
-                    //EmployeeMaster oldEmp = new EmployeeMaster();
-                    //oldEmp.EmployeeID = employeeMaster.EmployeeID;
-                    emp.VenueName = venue.VenueName;
-                    emp.ActivityID = venue.ActivityID;
+                //var enr = _context.Enrollments.Where(x => x.EnrollmentID == employeeActivity.EnrollmentID)
+                //            .Include(x => x.Employee).Include(x => x.Activity).Include(x => x.Venue).FirstOrDefault();
+                //var count = _context.Enrollments.Where(x => x.EmployeeID == employeeActivity.EmployeeID).Count();
+                var obj = GetVenue(id);
 
-                    _context.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                obj.VenueName = venue.VenueName;
+                obj.ActivityID = venue.ActivityID;
 
+                _context.SaveChanges();
+                return "Success";
             }
-            catch (Exception)
+            catch (DbUpdateException)
             {
-                return false;
+                return "Error - Venue already exists";
             }
         }
 
@@ -89,10 +75,10 @@ namespace Club_27.Services
         {
             try
             {
-                var emp = _context.Venues.Where(x => x.ID == id).FirstOrDefault();
-                if (emp != null)
+                var obj = _context.Venues.Where(x => x.ID == id).FirstOrDefault();
+                if (obj != null)
                 {
-                    return emp;
+                    return obj;
                 }
                 else
                 {
@@ -109,13 +95,14 @@ namespace Club_27.Services
         {
             try
             {
-                List<Venue> emp = _context.Venues.ToList();
-                if (emp != null)
+                List<Venue> obj = _context.Venues.Include(x => x.Activity).ToList();
+                if (obj != null)
                 {
-                    return emp;
+                    return obj;
                 }
                 else
                 {
+
                     return null;
                 }
             }

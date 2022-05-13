@@ -1,0 +1,61 @@
+﻿@model Club_27.Models.Booking
+
+@{
+    ViewData["Title"] = "Edit";
+    var venueListItem = ViewBag.venueDropDown;
+    var activityListItem = ViewBag.activityDropDown;
+ }
+
+<h1>Edit</h1>
+
+<h4>Booking</h4>
+<hr />
+<form method ="post">
+  <br />
+  
+ <select asp-for ="VenueID">
+           <option selected>--Venue--</option>
+           @foreach (var item in venueListItem)
+                    {
+                        <option value="@item.ID">@item.VenueName</option>
+                    }
+       </select>
+    <br />
+    <br />
+        <select asp-for ="ActivityID">
+           <option selected>--Activity--</option>
+            @foreach (var item in activityListItem)
+                    {
+                        <option value="@item.ActivityID">@item.ActivityName</option>
+                    }
+       </select>
+       <br />
+       <br />
+       <div class="form-group">
+                <label asp-for="BookedOn" class="control-label"></label>
+                <input asp-for="BookedOn" class="form-control" />
+                <span asp-validation-for="BookedOn" class="text-danger"></span>
+  </div>
+  <br />
+       <div class="form-group">
+                <label asp-for="Fixture" class="control-label"></label>
+                <input asp-for="Fixture" class="form-control" />
+                <span asp-validation-for="Fixture" class="text-danger"></span>
+  </div>
+       <br />
+       <br />
+
+   <button type ="submit" class= "btn btn-primary">
+       Edit
+   </button>
+
+    <p style = "color:red;">
+           @Html.Label("",Convert.ToString((string)ViewBag.Error))
+       </p> 
+</form>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

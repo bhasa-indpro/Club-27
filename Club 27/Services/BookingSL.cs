@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Club_27.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Club_27.Services
 {
@@ -19,30 +20,48 @@ namespace Club_27.Services
 
 
 
-        public bool CreateBooking(Booking booking)
+        public string CreateBooking(Booking booking)
         {
-            try
-            {
-                _context.Bookings.Add(booking);
-                _context.SaveChanges();
-                return true;
+            //var count = _context.Enrollments.Where(x => x.EmployeeID == employeeActivity.EmployeeID).Count();
+            //var teamMaxCount = _context.Enrollments.Where(x => x.TeamID == employeeActivity.TeamID)
+            //                    .Where(x => x.ActivityID == employeeActivity.ActivityID).Count();
 
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            //var currentTeam = _context.Teams.Where(x => x.ID == employeeActivity.TeamID)
+            //                    .Where(x => x.ActivityID == employeeActivity.ActivityID).FirstOrDefault();
+            //if (teamMaxCount < currentTeam.MaxLimit)
+            //{
+            //    if (count < 4)
+            //    {
+                    try
+                    {
+                        _context.Bookings.Add(booking);
+                        _context.SaveChanges();
+                        return "Success";
+
+                    }
+                    catch (DbUpdateException)
+                    {
+                        return "Error - Duplicate Booking";
+                    }
+            //    }
+            //    else
+            //        return "Error - Maximum of 4 activities only";
+            //}
+            //else
+            //{
+            //    return "Error - Team already full";
+            //}
+
         }
 
         public bool DeleteBooking(Booking booking)
         {
             try
             {
-
-                var emp = _context.Bookings.Where(x => x.ID == booking.ID).FirstOrDefault();
-                if (emp != null)
+                var currentBooking = _context.Bookings.Where(x => x.ID == booking.ID).FirstOrDefault();
+                if (currentBooking != null)
                 {
-                    _context.Bookings.Remove(emp);
+                    _context.Bookings.Remove(currentBooking);
                     _context.SaveChanges();
                     return true;
                 }
@@ -58,31 +77,39 @@ namespace Club_27.Services
             }
         }
 
-        public bool UpdateBooking(Booking booking)
+        public string UpdateBooking(int id, Booking booking)
         {
             try
             {
-                var emp = _context.Bookings.Where(x => x.ID == booking.ID).FirstOrDefault();
-                if (emp != null)
-                {
-                    //EmployeeMaster oldEmp = new EmployeeMaster();
-                    //oldEmp.EmployeeID = employeeMaster.EmployeeID;
-                    emp.BookedOn = booking.BookedOn;
-                    emp.VenueID = booking.VenueID;
-                    emp.ActivityID = booking.ActivityID;
+                //var enr = _context.Enrollments.Where(x => x.EnrollmentID == employeeActivity.EnrollmentID)
+                //            .Include(x => x.Employee).Include(x => x.Activity).Include(x => x.Team).FirstOrDefault();
+                //var count = _context.Enrollments.Where(x => x.EmployeeID == employeeActivity.EmployeeID).Count();
+
+                //var teamMaxCount = _context.Enrollments.Where(x => x.TeamID == employeeActivity.TeamID)
+                //                .Where(x => x.ActivityID == employeeActivity.ActivityID).Count();
+
+                //var currentTeam = _context.Teams.Where(x => x.ID == employeeActivity.TeamID)
+                //                    .Where(x => x.ActivityID == employeeActivity.ActivityID).FirstOrDefault();
+
+                //if (teamMaxCount < currentTeam.MaxLimit)
+                //{
+                    var currentBooking = GetBooking(id);
+
+                    currentBooking.ID = booking.ID;
+                    currentBooking.BookedOn = booking.BookedOn;
+                    currentBooking.ActivityID = booking.ActivityID;
+                    currentBooking.VenueID = booking.VenueID;
+                    currentBooking.Fixture = booking.Fixture;
 
                     _context.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
+                    return "Success";
+                //}
+                //else
+                //    return "Error - Team already full";
             }
-            catch (Exception)
+            catch (DbUpdateException)
             {
-                return false;
+                return "Error - Duplicate Enrollment";
             }
         }
 
@@ -90,10 +117,10 @@ namespace Club_27.Services
         {
             try
             {
-                var emp = _context.Bookings.Where(x => x.ID == id).FirstOrDefault();
-                if (emp != null)
+                var bookingItem = _context.Bookings.Where(x => x.ID == id).FirstOrDefault();
+                if (bookingItem != null)
                 {
-                    return emp;
+                    return bookingItem;
                 }
                 else
                 {
@@ -110,13 +137,14 @@ namespace Club_27.Services
         {
             try
             {
-                List<Booking> emp = _context.Bookings.ToList();
-                if (emp != null)
+                List<Booking> bookingList = _context.Bookings.Include(x => x.Activity).Include(x => x.Venue).ToList();
+                if (bookingList != null)
                 {
-                    return emp;
+                    return bookingList;
                 }
                 else
                 {
+
                     return null;
                 }
             }

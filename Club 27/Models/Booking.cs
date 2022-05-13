@@ -22,7 +22,7 @@ namespace Club_27.Models
 
         public int ActivityID { get; set; }
 
-        [ForeignKey ("ActvityID")]
+        [ForeignKey ("ActivityID")]
         public virtual ActivityMaster Activity { get; set; }
         public string Fixture { get; set; }
         

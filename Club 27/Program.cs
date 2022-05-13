@@ -42,6 +42,8 @@ builder.Services.AddScoped<EmployeeMasterSL>();
 builder.Services.AddScoped<ActivityMasterSL>();
 builder.Services.AddScoped<EnrollmentSL>();
 builder.Services.AddScoped<TeamSL>();
+builder.Services.AddScoped<VenueSL>();
+builder.Services.AddScoped<BookingSL>();
 
 builder.Services.AddRazorPages();
 builder.Services.AddSwaggerGen();

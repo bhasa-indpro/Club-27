@@ -1,0 +1,46 @@
+﻿@model Club_27.Models.Venue
+
+@{
+    ViewData["Title"] = "Edit";
+    var activityListItem = ViewBag.TypeDropDown;
+}
+
+<h1>Edit</h1>
+
+<h4>Venue</h4>
+<hr />
+
+<form method ="post">
+  <br />
+  
+    <div class="form-group">
+                <label asp-for="VenueName" class="control-label"></label>
+                <input asp-for="VenueName" class="form-control" />
+                <span asp-validation-for="VenueName" class="text-danger"></span>
+  </div>
+       <br />
+       <br />
+       <select asp-for ="ActivityID">
+           <option selected>--Activity--</option>
+            @foreach (var item in activityListItem)
+                    {
+                        <option value="@item.ActivityID">@item.ActivityName</option>
+                    }
+       </select>
+       <br />
+       <br />
+
+   <button type ="submit" class= "btn btn-primary">
+       Edit
+   </button>
+
+    <p style = "color:red;">
+           @Html.Label("",Convert.ToString((string)ViewBag.Error))
+       </p> 
+</form>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
