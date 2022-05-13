@@ -360,5 +360,14 @@ namespace Club_27.Controllers
         {
             return _context.Enrollments.Any(e => e.EnrollmentID == id);
         }
+
+        [HttpPost]
+        public async Task<JsonResult> GetTeamList(int id)
+        {
+            var teamList = _teamSL.AllTeam().Where(x => x.ActivityID == id).ToList();
+            var teamDropDownItems = teamList.Select(x => new SelectListItem { Value = x.ID.ToString() , Text = x.Name }).ToList();
+            var returnValue = Json(teamDropDownItems);
+            return Json(teamDropDownItems);
+        }
     }
 }

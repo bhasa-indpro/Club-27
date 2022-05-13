@@ -96,20 +96,25 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@*@section scripts{
+@section scripts{
     <script>
 $(document).ready(function(){
-  $("button").click(function(){
-    $.ajax({url: '@Url.Action("Create" , "Enrollments")', type:"post" ,success: function(result){
+  $("#ActivityID").change(function(){
+    var selectedIds = $(this).val();
+      $.ajax({url: '@Url.Action("GetTeamList" , "Enrollments")', type:"post", data:{id:selectedIds} ,success: function(result){
       if(result != null)
       {
-          alert(result.ToString());
+          console.log("data :"+result);
+          $("#TeamID").empty();
+            $.each(result.Value, function () {
+                $("#TeamID").append($("<option></option>").val(this['Value']).html(this['Text']));
+            });
       }
     }});
   });
 });
 </script>
-}*@
+}
 
 @*@section scripts{
     <script>
