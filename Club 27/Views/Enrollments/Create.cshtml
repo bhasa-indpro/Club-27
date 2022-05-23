@@ -104,10 +104,9 @@ $(document).ready(function(){
       $.ajax({url: '@Url.Action("GetTeamList" , "Enrollments")', type:"post", data:{id:selectedIds} ,success: function(result){
       if(result != null)
       {
-          console.log("data :"+result);
           $("#TeamID").empty();
-            $.each(result.Value, function () {
-                $("#TeamID").append($("<option></option>").val(this['Value']).html(this['Text']));
+            $.each(result, function (i,value) {
+                $("#TeamID").append($("<option></option>").val(value.value).html(value.text));
             });
       }
     }});
@@ -115,6 +114,25 @@ $(document).ready(function(){
 });
 </script>
 }
+
+@*@section scripts{
+    <script>
+$(document).ready(function(){
+  $("#TeamID").change(function(){
+    var selectedIds = $(this).val();
+      $.ajax({url: '@Url.Action("GetActivityList" , "Enrollments")', type:"post", data:{id:selectedIds} ,success: function(result){
+      if(result != null)
+      {
+          $("#ActivityID").empty();
+            $.each(result, function (i,value) {
+                $("#ActivityID").append($("<option></option>").val(value.value).html(value.text));
+            });
+      }
+    }});
+  });
+});
+</script>
+}*@
 
 @*@section scripts{
     <script>

@@ -75,7 +75,7 @@
   </div>
 </nav>*@
 
-@model IEnumerable<Club_27.ViewModels.EnrollmentViewModel>
+@model IEnumerable<Club_27.ViewModels.EnrollmentViewModelAutoMapper>
 
 @{
     ViewData["Title"] = "Index";
@@ -99,12 +99,18 @@
 {
             var activityNameList = "";   
             <tr>
-            <td>@item.EmployeeVM.EmployeeName</td>
-            @if(item.ActivityListVM.Count > 0)
+            <td>
+                @*@item.EmployeeVM.EmployeeName*@
+                @item.EmployeeName
+            </td>
+            @if(item.ActivityList.Count > 0)
             {
-                    activityNameList = string.Join(" | ", item.ActivityListVM.Select(x => x.ActivityName));
+                    @*activityNameList = string.Join(" | ", item.ActivityList.Select(x => x.ActivityName));*@
+                    activityNameList = string.Join(", ", item.ActivityList);
             }
-            <td>@activityNameList</td>
+            <td>
+                @activityNameList
+            </td>
         </tr>
 }
     </tbody>

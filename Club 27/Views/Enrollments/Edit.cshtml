@@ -80,3 +80,23 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+
+@section scripts{
+    <script>
+$(document).ready(function(){
+  $("#ActivityID").change(function(){
+    var selectedIds = $(this).val();
+      $.ajax({url: '@Url.Action("GetTeamList" , "Enrollments")', type:"post", data:{id:selectedIds} ,success: function(result){
+      if(result != null)
+      {
+          $("#TeamID").empty();
+            $.each(result, function (i,value) {
+                $("#TeamID").append($("<option></option>").val(value.value).html(value.text));
+            });
+      }
+    }});
+  });
+});
+</script>
+}
+

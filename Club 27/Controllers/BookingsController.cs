@@ -135,5 +135,14 @@ namespace Club_27.Controllers
             var result = _bookingSL.DeleteBooking(_bookingSL.GetBooking(id));
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        public async Task<JsonResult> GetVenueList(int id)
+        {
+            var venueList = _venueSL.AllVenue().Where(x => x.ActivityID == id).ToList();
+            var venueDropDownItems = venueList.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.VenueName }).ToList();
+            //var returnValue = Json(teamDropDownItems);
+            return Json(venueDropDownItems);
+        }
     }
 }

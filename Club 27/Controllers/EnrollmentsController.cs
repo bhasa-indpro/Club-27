@@ -369,5 +369,17 @@ namespace Club_27.Controllers
             var returnValue = Json(teamDropDownItems);
             return Json(teamDropDownItems);
         }
+
+        //[HttpPost]
+        //public async Task<JsonResult> GetActivityList(int id)
+        //{
+        //    var selectedTeam = _teamSL.GetTeam(id);
+        //    var selectedTeamName = selectedTeam.Name;
+        //    var teamListFromName = _teamSL.AllTeam().Where(x => x.Name == selectedTeamName).ToList();
+        //    var activityListFromName = _
+        //    var activityDropDownItems = teamList.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.Name }).ToList();
+        //    var returnValue = Json(teamDropDownItems);
+        //    return Json(teamDropDownItems);
+        //}
     }
 }

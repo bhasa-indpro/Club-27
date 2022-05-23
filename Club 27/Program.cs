@@ -7,6 +7,7 @@ using NLog.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Club_27;
+using Club_27.AutoMapper;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -44,6 +45,13 @@ builder.Services.AddScoped<EnrollmentSL>();
 builder.Services.AddScoped<TeamSL>();
 builder.Services.AddScoped<VenueSL>();
 builder.Services.AddScoped<BookingSL>();
+
+var config = new AutoMapper.MapperConfiguration(cfg =>
+{
+    cfg.AddProfile(new AutoMapperProfile());
+});
+var mapper = config.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 builder.Services.AddRazorPages();
 builder.Services.AddSwaggerGen();
