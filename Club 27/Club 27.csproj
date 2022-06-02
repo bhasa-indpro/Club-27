@@ -67,6 +67,8 @@
     <None Include="Views\_Layout.cshtml" />
     <None Include="Views\_ViewImports.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
+    <None Include="wwwroot\css\select2.min.css" />
+    <None Include="wwwroot\js\select2.min.js" />
   </ItemGroup>
 
   <ItemGroup>

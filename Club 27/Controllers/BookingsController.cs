@@ -18,12 +18,14 @@ namespace Club_27.Controllers
         private readonly BookingSL _bookingSL;
         private readonly ActivityMasterSL _activityMasterSL;
         private readonly VenueSL _venueSL;
+        private readonly TeamSL _teamSL;
 
-        public BookingsController(ILogger<BookingsController> logger, ActivityMasterSL activityMasterSL, VenueSL venueSL, BookingSL bookingSL)
+        public BookingsController(ILogger<BookingsController> logger, ActivityMasterSL activityMasterSL, TeamSL teamSL, VenueSL venueSL, BookingSL bookingSL)
         {
             _activityMasterSL = activityMasterSL;
             _venueSL = venueSL;
             _bookingSL = bookingSL;
+            _teamSL = teamSL;
             _logger = logger;
             _logger.LogDebug(1, "NLog injected into HomeController");
         }
@@ -52,9 +54,11 @@ namespace Club_27.Controllers
         {
             var venueDropDown = _venueSL.AllVenue().ToList();
             var activityDropDown = _activityMasterSL.AllActivity().ToList();
+            var teamDropDown = _teamSL.AllTeam().Select(x => new SelectListItem { Text = x.Name, Value = x.Name }).ToList();
 
             ViewBag.venueDropDown = venueDropDown;
             ViewBag.activityDropDown = activityDropDown;
+            ViewBag.teamDropDown = teamDropDown;
 
             return View();
         }
@@ -64,17 +68,24 @@ namespace Club_27.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Booking booking)
         {
+            booking.Fixture = String.Join(" vs ", booking.ParticipantList);
             var result = _bookingSL.CreateBooking(booking);
             if (result == "Success")
+            {
+                
                 return RedirectToAction("Index");
-            else if (result == "Error - Duplicate Booking")
+            }
+            else
                 ViewBag.Error = result;
 
             var venueDropDown = _venueSL.AllVenue().ToList();
             var activityDropDown = _activityMasterSL.AllActivity().ToList();
+            var teamDropDown = _teamSL.AllTeam().Select(x => new SelectListItem { Text = x.Name, Value = x.Name }).ToList();
 
             ViewBag.venueDropDown = venueDropDown;
             ViewBag.activityDropDown = activityDropDown;
+            ViewBag.teamDropDown = teamDropDown;
+
 
             return View(booking);            
         }
@@ -96,9 +107,12 @@ namespace Club_27.Controllers
 
             var venueDropDown = _venueSL.AllVenue().ToList();
             var activityDropDown = _activityMasterSL.AllActivity().ToList();
+            var teamDropDown = _teamSL.AllTeam().Select(x => new SelectListItem { Text = x.Name, Value = x.Name }).ToList();
+
 
             ViewBag.venueDropDown = venueDropDown;
             ViewBag.activityDropDown = activityDropDown;
+            ViewBag.teamDropDown = teamDropDown;
             return View(obj);
         }
 
@@ -106,12 +120,16 @@ namespace Club_27.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Booking booking)
         {
+                       
             var venueDropDown = _venueSL.AllVenue().ToList();
             var activityDropDown = _activityMasterSL.AllActivity().ToList();
+            var teamDropDown = _teamSL.AllTeam().Select(x => new SelectListItem { Text = x.Name, Value = x.Name }).ToList();
 
             ViewBag.venueDropDown = venueDropDown;
             ViewBag.activityDropDown = activityDropDown;
+            ViewBag.teamDropDown = teamDropDown;
 
+            booking.Fixture = String.Join(" vs ", booking.ParticipantList);
             var result = _bookingSL.UpdateBooking(id, booking);
             if (result == "Success")
                 return RedirectToAction("Index");
@@ -143,6 +161,15 @@ namespace Club_27.Controllers
             var venueDropDownItems = venueList.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.VenueName }).ToList();
             //var returnValue = Json(teamDropDownItems);
             return Json(venueDropDownItems);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetTeamList(int id)
+        {
+            var teamList = _teamSL.AllTeam().Where(x => x.ActivityID == id).ToList();
+            var teamDropDownItems = teamList.Select(x => new SelectListItem { Text = x.Name, Value = x.Name }).ToList();
+            //var returnValue = Json(teamDropDownItems);
+            return Json(teamDropDownItems);
         }
     }
 }

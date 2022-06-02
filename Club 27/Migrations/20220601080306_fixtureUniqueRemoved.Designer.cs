@@ -4,6 +4,7 @@ using Club_27.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Club_27.Migrations
 {
     [DbContext(typeof(Club27DBContext))]
-    partial class Club27DBContextModelSnapshot : ModelSnapshot
+    [Migration("20220601080306_fixtureUniqueRemoved")]
+    partial class fixtureUniqueRemoved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

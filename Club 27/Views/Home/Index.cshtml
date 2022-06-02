@@ -75,43 +75,59 @@
   </div>
 </nav>*@
 
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
 @model IEnumerable<Club_27.ViewModels.EnrollmentViewModelAutoMapper>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1></h1>
+@if (SignInManager.IsSignedIn(User))
+{
 
-<p>
-    <a asp-controller="Enrollments" asp-action="Create">Want to Enroll Someone ?</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
+    <h1></h1>
+
+    <p>
+        <a asp-controller="Enrollments" asp-action="Create">Want to Enroll Someone ?</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
                 <th>Employee Name</th>
                 <th>Activity</th>
-        </tr>
-    </thead>
-    <tbody>
+            </tr>
+        </thead>
+        <tbody>
 
-@foreach (var item in Model) 
-{
-            var activityNameList = "";   
-            <tr>
-            <td>
-                @*@item.EmployeeVM.EmployeeName*@
-                @item.EmployeeName
-            </td>
-            @if(item.ActivityList.Count > 0)
+            @foreach (var item in Model)
             {
-                    @*activityNameList = string.Join(" | ", item.ActivityList.Select(x => x.ActivityName));*@
-                    activityNameList = string.Join(", ", item.ActivityList);
+                var activityNameList = "";
+                <tr>
+                    <td>
+                        @*@item.EmployeeVM.EmployeeName*@
+                        @item.EmployeeName
+                    </td>
+                    @if (item.ActivityList.Count > 0)
+                    {
+                        @*activityNameList = string.Join(" | ", item.ActivityList.Select(x => x.ActivityName));*@
+                        activityNameList = string.Join(", ", item.ActivityList);
+                    }
+                    <td>
+                        @activityNameList
+                    </td>
+                </tr>
             }
-            <td>
-                @activityNameList
-            </td>
-        </tr>
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
+else
+{
+<li class="nav-item">
+        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+   
+}

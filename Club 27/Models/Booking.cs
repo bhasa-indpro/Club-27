@@ -13,8 +13,8 @@ namespace Club_27.Models
     {
         [Key]
         public int ID { get; set; }
-                
-        public DateTime BookedOn { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
         public int VenueID { get; set; }
         
         [ForeignKey ("VenueID")]
@@ -25,6 +25,9 @@ namespace Club_27.Models
         [ForeignKey ("ActivityID")]
         public virtual ActivityMaster Activity { get; set; }
         public string Fixture { get; set; }
+
+        [NotMapped]
+        public string[] ParticipantList { get; set; }
         
     }
 }

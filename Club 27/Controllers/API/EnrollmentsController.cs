@@ -21,14 +21,14 @@ namespace Club_27.Controllers.API
             enrollmentSL = enrollment;
         }
 
-        // GET: api/EmployeeActivitiesWAPI
+        // GET: api/Enrollments
         [HttpGet]
         public ActionResult<IList<Enrollment>> GetEnrollments()
         {
             return enrollmentSL.AllEnrollment().ToList();
         }
 
-        // GET: api/EmployeeActivitiesWAPI/5
+        // GET: api/Enrollments/5
         [HttpGet("{id}")]
         public ActionResult<Enrollment> GetEnrollment(int id)
         {
@@ -42,7 +42,7 @@ namespace Club_27.Controllers.API
             return enrollment;
         }
 
-        // PUT: api/EmployeeActivitiesWAPI/5
+        // PUT: api/Enrollments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public ActionResult PutEnrollment(int id, Enrollment employeeActivity)
@@ -53,21 +53,26 @@ namespace Club_27.Controllers.API
             }
             else
             {
-                enrollmentSL.UpdateEnrollment(id , employeeActivity);
-                return Ok();
+                if (enrollmentSL.UpdateEnrollment(id, employeeActivity) == "Success")
+                    return Ok();
+                else
+                    return BadRequest();
             }
         }
 
-        // POST: api/EmployeeActivitiesWAPI
+        // POST: api/Enrollments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public ActionResult<Enrollment> PostEnrollment(Enrollment employeeActivity)
         {
             var enrollment = enrollmentSL.CreateEnrollment(employeeActivity);
-            return Ok(enrollment);
+            if (enrollment == "Success")
+                return Ok(enrollment);
+            else
+                return BadRequest();
         }
 
-        // DELETE: api/EmployeeActivitiesWAPI/5
+        // DELETE: api/Enrollments/5
         [HttpDelete("{id}")]
         public ActionResult DeleteEnrollment(int id)
         {
@@ -80,7 +85,7 @@ namespace Club_27.Controllers.API
             {
                 enrollmentSL.DeleteEnrollment(enrollment);
                 return Ok();
-            }           
+            }
         }
 
         //private bool EnrollmentExists(int id)

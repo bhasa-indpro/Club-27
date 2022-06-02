@@ -10,9 +10,11 @@ using Microsoft.EntityFrameworkCore;
 using Club_27.ViewModels;
 using Club_27.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Club_27.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

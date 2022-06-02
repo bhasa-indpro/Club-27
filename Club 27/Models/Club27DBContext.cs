@@ -27,7 +27,7 @@ namespace Club_27.Models
             modelBuilder.Entity<EmployeeMaster>().HasIndex(x => new { x.Email }).IsUnique(true);
             modelBuilder.Entity<ActivityMaster>().HasIndex(x => new { x.ActivityName }).IsUnique(true);
             modelBuilder.Entity<Venue>().HasIndex(x => new { x.ActivityID }).IsUnique(true);
-            modelBuilder.Entity<Booking>().HasIndex(x => new { x.BookedOn , x.VenueID , x.ActivityID , x.Fixture }).IsUnique(true);
+            modelBuilder.Entity<Booking>().HasIndex(x => new { x.VenueID , x.ActivityID , x.Start , x.End }).IsUnique(true);
             modelBuilder.Entity<Team>().HasIndex(x => new { x.Name , x.ActivityID }).IsUnique(true);
 
             //modelBuilder.Entity<ActivityMaster>().WillCascadeOnDelete(false);

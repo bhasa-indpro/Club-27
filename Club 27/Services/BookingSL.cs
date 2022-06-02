@@ -12,46 +12,99 @@ namespace Club_27.Services
     public class BookingSL
     {
         private readonly Club27DBContext _context;
+        private readonly ILogger<BookingSL> _logger;
 
-        public BookingSL(Club27DBContext context)
+        public BookingSL(Club27DBContext context, ILogger<BookingSL> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
 
 
         public string CreateBooking(Booking booking)
         {
-            //var count = _context.Enrollments.Where(x => x.EmployeeID == employeeActivity.EmployeeID).Count();
-            //var teamMaxCount = _context.Enrollments.Where(x => x.TeamID == employeeActivity.TeamID)
-            //                    .Where(x => x.ActivityID == employeeActivity.ActivityID).Count();
+            try
+            {
+                if ((booking.Start < DateTime.Now) || (booking.End < DateTime.Now))
+                {
+                    return "You need a Time Machine mate";
+                }
 
-            //var currentTeam = _context.Teams.Where(x => x.ID == employeeActivity.TeamID)
-            //                    .Where(x => x.ActivityID == employeeActivity.ActivityID).FirstOrDefault();
-            //if (teamMaxCount < currentTeam.MaxLimit)
-            //{
-            //    if (count < 4)
-            //    {
-                    try
+                TimeSpan startTime = booking.Start.TimeOfDay;
+                TimeSpan endTime = booking.End.TimeOfDay;
+
+                if (endTime < startTime)
+                {
+                    return "End time should be after Start Time";
+                }
+
+                int timeRangeFlag;
+
+                TimeSpan openTime = new TimeSpan(7, 0, 0);
+                TimeSpan closeTime = new TimeSpan(22, 0, 0);
+
+                if ((startTime > openTime) && (endTime < closeTime))
+                    timeRangeFlag = 1;
+                else
+                    timeRangeFlag = 0;
+
+                if (timeRangeFlag == 0)
+                    return "Please book during Venue operating hours (7 AM - 10 PM Only)";
+
+                var currentBookingList = _context.Bookings.
+                    Where(x => x.ActivityID == booking.ActivityID).
+                    Where(y => y.VenueID == booking.VenueID).
+                    ToList();
+
+                int slotFlag = 1;
+                foreach (var item in currentBookingList)
+                {
+                    TimeSpan itemStartTime = item.Start.TimeOfDay;
+                    TimeSpan itemEndTime = item.End.TimeOfDay;
+
+                    if ((startTime > itemStartTime) && (endTime < itemEndTime))
                     {
-                        _context.Bookings.Add(booking);
-                        _context.SaveChanges();
-                        return "Success";
-
+                        slotFlag = 0;
+                        break;
                     }
-                    catch (DbUpdateException)
+
+                    if ((startTime < itemStartTime) && (endTime > itemEndTime))
                     {
-                        return "Error - Duplicate Booking";
+                        slotFlag = 0;
+                        break;
                     }
-            //    }
-            //    else
-            //        return "Error - Maximum of 4 activities only";
-            //}
-            //else
-            //{
-            //    return "Error - Team already full";
-            //}
 
+                    if ((startTime > itemStartTime) && (startTime < itemEndTime))
+                    {
+                        slotFlag = 0;
+                        break;
+                    }
+
+                    if ((endTime > itemStartTime) && (endTime < itemEndTime))
+                    {
+                        slotFlag = 0;
+                        break;
+                    }
+                }
+                if (slotFlag == 0)
+                    return "Slot Unavailable. Check slots in list properly.";
+
+                _context.Bookings.Add(booking);
+                _context.SaveChanges();
+                return "Success";
+
+
+            }
+            catch (DbUpdateException)
+            {
+                return "Error - Duplicate Booking";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.ToString());
+                return "Failed Operation";
+            }
         }
 
         public bool DeleteBooking(Booking booking)
@@ -81,35 +134,90 @@ namespace Club_27.Services
         {
             try
             {
-                //var enr = _context.Enrollments.Where(x => x.EnrollmentID == employeeActivity.EnrollmentID)
-                //            .Include(x => x.Employee).Include(x => x.Activity).Include(x => x.Team).FirstOrDefault();
-                //var count = _context.Enrollments.Where(x => x.EmployeeID == employeeActivity.EmployeeID).Count();
+                if ((booking.Start < DateTime.Now) || (booking.End < DateTime.Now))
+                {
+                    return "You need a Time Machine mate";
+                }
 
-                //var teamMaxCount = _context.Enrollments.Where(x => x.TeamID == employeeActivity.TeamID)
-                //                .Where(x => x.ActivityID == employeeActivity.ActivityID).Count();
+                TimeSpan startTime = booking.Start.TimeOfDay;
+                TimeSpan endTime = booking.End.TimeOfDay;
 
-                //var currentTeam = _context.Teams.Where(x => x.ID == employeeActivity.TeamID)
-                //                    .Where(x => x.ActivityID == employeeActivity.ActivityID).FirstOrDefault();
+                if (endTime < startTime)
+                {
+                    return "End time should be after Start Time";
+                }
 
-                //if (teamMaxCount < currentTeam.MaxLimit)
-                //{
-                    var currentBooking = GetBooking(id);
+                int timeRangeFlag;
 
-                    currentBooking.ID = booking.ID;
-                    currentBooking.BookedOn = booking.BookedOn;
-                    currentBooking.ActivityID = booking.ActivityID;
-                    currentBooking.VenueID = booking.VenueID;
-                    currentBooking.Fixture = booking.Fixture;
+                TimeSpan openTime = new TimeSpan(7, 0, 0);
+                TimeSpan closeTime = new TimeSpan(22, 0, 0);
 
-                    _context.SaveChanges();
-                    return "Success";
-                //}
-                //else
-                //    return "Error - Team already full";
+                if ((startTime > openTime) && (endTime < closeTime))
+                    timeRangeFlag = 1;
+                else
+                    timeRangeFlag = 0;
+
+                if (timeRangeFlag == 0)
+                    return "Please book during Venue operating hours (7 AM - 10 PM Only)";
+
+                var currentBookingList = _context.Bookings.
+                    Where(x => x.ActivityID == booking.ActivityID).
+                    Where(y => y.VenueID == booking.VenueID).
+                    ToList();
+
+                int slotFlag = 1;
+                foreach (var item in currentBookingList)
+                {
+                    TimeSpan itemStartTime = item.Start.TimeOfDay;
+                    TimeSpan itemEndTime = item.End.TimeOfDay;
+
+                    if ((startTime > itemStartTime) && (endTime < itemEndTime))
+                    {
+                        slotFlag = 0;
+                        break;
+                    }
+
+                    if ((startTime < itemStartTime) && (endTime > itemEndTime))
+                    {
+                        slotFlag = 0;
+                        break;
+                    }
+
+                    if ((startTime > itemStartTime) && (startTime < itemEndTime))
+                    {
+                        slotFlag = 0;
+                        break;
+                    }
+
+                    if ((endTime > itemStartTime) && (endTime < itemEndTime))
+                    {
+                        slotFlag = 0;
+                        break;
+                    }
+                }
+                if (slotFlag == 0)
+                    return "Slot Unavailable. Check slots in list properly.";
+
+                var currentBooking = GetBooking(id);
+
+                currentBooking.ID = booking.ID;
+                currentBooking.Start = booking.Start;
+                currentBooking.End = booking.End;
+                currentBooking.ActivityID = booking.ActivityID;
+                currentBooking.VenueID = booking.VenueID;
+                currentBooking.Fixture = booking.Fixture;
+                _context.SaveChanges();
+                return "Success";
+
             }
             catch (DbUpdateException)
             {
                 return "Error - Duplicate Enrollment";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.ToString());
+                return "Failed Operation";
             }
         }
 

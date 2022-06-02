@@ -4,6 +4,7 @@ using Club_27.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Club_27.Migrations
 {
     [DbContext(typeof(Club27DBContext))]
-    partial class Club27DBContextModelSnapshot : ModelSnapshot
+    [Migration("20220523145937_BookingStartEnd")]
+    partial class BookingStartEnd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,7 +59,7 @@ namespace Club_27.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Fixture")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Start")
                         .HasColumnType("datetime2");
@@ -69,8 +71,9 @@ namespace Club_27.Migrations
 
                     b.HasIndex("ActivityID");
 
-                    b.HasIndex("VenueID", "ActivityID", "Start", "End")
-                        .IsUnique();
+                    b.HasIndex("VenueID", "ActivityID", "Fixture", "Start", "End")
+                        .IsUnique()
+                        .HasFilter("[Fixture] IS NOT NULL");
 
                     b.ToTable("Bookings");
                 });

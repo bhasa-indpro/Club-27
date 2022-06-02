@@ -15,7 +15,8 @@
                 <th>Booking ID</th>
                 <th>Venue</th>
                 <th>Activity</th>
-                <th>BookedOn</th>
+                <th>Start</th>
+                <th>End</th>
                 <th>Fixture</th>
                 <th>Action</th>
         </tr>
@@ -26,7 +27,8 @@
             <td>@item.ID</td>
             <td>@item.Venue.VenueName</td>
             <td>@item.Activity.ActivityName</td>
-            <td>@item.BookedOn</td>
+            <td>@item.Start</td>
+            <td>@item.End</td>
             <td>@item.Fixture</td>
             <td>
                 <a asp-controller="Bookings" asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

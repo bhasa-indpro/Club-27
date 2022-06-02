@@ -4,11 +4,12 @@
     ViewData["Title"] = "Create";
     var venueListItem = ViewBag.venueDropDown;
     var activityListItem = ViewBag.activityDropDown;
+    var teamListItem = ViewBag.teamDropDown;
 }
 
-@*<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-*@
+<script type="text/javascript"src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 
 <h1>Create</h1>
@@ -39,16 +40,36 @@
     <br />
        <br />
        <div class="form-group">
-                <label asp-for="BookedOn" class="control-label"></label>
-                <input asp-for="BookedOn" class="form-control" />
-                <span asp-validation-for="BookedOn" class="text-danger"></span>
+                <label asp-for="Start" class="control-label"></label>
+                <input asp-for="Start" class="form-control" />
+                <span asp-validation-for="Start" class="text-danger"></span>
   </div>
   <br />
-       <div class="form-group">
+     <div class="form-group">
+                <label asp-for="End" class="control-label"></label>
+                <input asp-for="End" class="form-control" />
+                <span asp-validation-for="End" class="text-danger"></span>
+  </div>
+  <br />
+@*  <div class="form-group">
                 <label asp-for="Fixture" class="control-label"></label>
                 <input asp-for="Fixture" class="form-control" />
                 <span asp-validation-for="Fixture" class="text-danger"></span>
-  </div>
+  </div>*@
+  <br/>
+  @*<div class="form-group">
+            <label>Select Participants</label>
+            <br/>
+            @Html.ListBoxFor(Model => Model.ParticipantList, (IEnumerable<SelectListItem>)teamListItem , new {multiple = "multiple"})
+        </div>*@
+
+         <select asp-for="ParticipantList" multiple="multiple">
+            @foreach (var item in teamListItem)
+                    {
+                        <option value="@item.Value">@item.Value</option>
+                    }
+       </select>
+</div>
        <br />
        <br />
 
@@ -100,6 +121,17 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@*@section scripts{
+    <script>
+        $(function () {       
+            $("#multiSelectDropDown").chosen({
+                width: "100%"
+            });
+            
+        });
+    </script>
+}*@
+
 @section scripts{
     <script>
 $(document).ready(function(){
@@ -116,6 +148,31 @@ $(document).ready(function(){
     }});
   });
 });
+</script>
+
+@*<script>
+$(document).ready(function(){
+  $("#ParticipantList").change(function(){
+    var selectedIds = $(this).val();
+      $.ajax({url: '@Url.Action("GetTeamList" , "Bookings")', type:"post", data:{id:selectedIds} ,success: function(result){
+      if(result != null)
+      {
+          $("#ParticipantList").empty();
+            $.each(result, function (i,value) {
+                $("#ParticipantList").append($("<option></option>").val(value.value).html(value.text));
+            });
+      }
+    }});
+  });
+});
+</script>*@
+
+<script>
+ $(document).ready(function()
+    {
+        
+        $('#ParticipantList').select2();
+    });
 </script>
 }
 
