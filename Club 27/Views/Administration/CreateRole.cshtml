@@ -1,0 +1,22 @@
+﻿@model Club_27.ViewModels.CreateRoleViewModel
+
+@{
+    ViewData["Title"] = "Create New Role";
+}
+
+<h1>Create New Role</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateRole">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RoleName" class="control-label"></label>
+                <input asp-for="RoleName" class="form-control" />
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Role</button>
+        </form>
+    </div>
+</div>

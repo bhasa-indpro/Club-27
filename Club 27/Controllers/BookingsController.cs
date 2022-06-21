@@ -167,6 +167,7 @@ namespace Club_27.Controllers
         public async Task<JsonResult> GetTeamList(int id)
         {
             var teamList = _teamSL.AllTeam().Where(x => x.ActivityID == id).ToList();
+            //var empList = _enrollmentSL.AllEnrollments.Where
             var teamDropDownItems = teamList.Select(x => new SelectListItem { Text = x.Name, Value = x.Name }).ToList();
             //var returnValue = Json(teamDropDownItems);
             return Json(teamDropDownItems);

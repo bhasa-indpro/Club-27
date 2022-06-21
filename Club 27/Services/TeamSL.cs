@@ -70,7 +70,7 @@ namespace Club_27.Services
         {
             try
             {
-                var obj = _context.Teams.Where(x => x.ID == id).FirstOrDefault();
+                var obj = _context.Teams.Include(a=>a.Activity).Where(x => x.ID == id).FirstOrDefault();
                 if (obj != null)
                 {
                     return obj;

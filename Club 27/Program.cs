@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Club_27;
 using Club_27.AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -22,6 +23,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
     .AddEntityFrameworkStores<Club27DBContext>();
+//builder.Services.AddDefaultIdentity<ApplicationRole, IdentityUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<Club27DBContext>();
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 var connectionString = builder.Configuration.GetConnectionString("Club_27ContextConnection");;
 
@@ -54,7 +56,7 @@ var mapper = config.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
 builder.Services.AddRazorPages();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 //var path = Directory.GetCurrentDirectory();
@@ -67,15 +69,15 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-else
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-        options.RoutePrefix = string.Empty;
-    });
-}
+//else
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI(options =>
+//    {
+//        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+//        options.RoutePrefix = string.Empty;
+//    });
+//}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

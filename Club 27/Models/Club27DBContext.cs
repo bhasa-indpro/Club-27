@@ -12,8 +12,14 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Club_27.Models
 {
+    public class ApplicationRole : IdentityRole
+    {
+        public ApplicationRole() : base() { }
+        public ApplicationRole(string roleName) : base(roleName) { }
+    }
     public class Club27DBContext : IdentityDbContext
     {
+        
         public Club27DBContext(DbContextOptions<Club27DBContext> options) : base(options)
         {
 
@@ -45,6 +51,7 @@ namespace Club_27.Models
         public DbSet<Venue> Venues { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Team> Teams { get; set; }
+        public DbSet<Role> Roles { get; set; }
         //public DbSet <IdentityUser> 
         //public DbSet<Role> Roles { get; set; }
 

@@ -9,10 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using Club_27.Models;
 using Microsoft.Extensions.Logging;
 using Club_27.Services;
-
+using Microsoft.AspNetCore.Authorization;
+using Club_27.Authorization;
 
 namespace Club_27.Controllers
 {
+    [Authorize]
     public class EnrollmentsController : Controller
     {
         private readonly Club27DBContext _context;
@@ -68,6 +70,8 @@ namespace Club_27.Controllers
         }
 
         // GET: EmployeeActivities/Create
+        //[WebAuthorize (RolesList=new[] {Roles.Admin})]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             var TypeDropDown1 = _employeeMasterSL.AllEmployee().ToList();
