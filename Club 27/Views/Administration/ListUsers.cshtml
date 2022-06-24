@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<IdentityUser>
+
+@{
+    ViewData["Title"] = "All Users";
+}
+
+<h1>Index</h1>
+
+<p>
+    List of Users
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>UserID</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Email</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -63,11 +63,12 @@ namespace Club_27.Controllers
                 .Select(d => new EnrollmentViewModelAutoMapper
                 {
                     EmployeeName = d.Key,
-                    ActivityList = d.Select(e => e.Activity.ActivityName).ToList()
+                    ActivityName = d.Select(e => e.Activity.ActivityName).ToList()
                 });
+            return View (enrollmentGroupByEmployee);
 
             //return View(employeeGroupedActivityList);
-            return View(enrollmentGroupByEmployee);
+            //return View(mappedItem);
 
         }
 
