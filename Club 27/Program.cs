@@ -57,6 +57,9 @@ builder.Services.AddSingleton(mapper);
 
 builder.Services.AddRazorPages();
 //builder.Services.AddSwaggerGen();
+
+builder.Services.ConfigureApplicationCookie(options => { options.LoginPath = "/Identity/Account/Login"; });
+builder.Services.ConfigureApplicationCookie(options => { options.AccessDeniedPath = "/Identity/Account/AccessDenied"; });
 var app = builder.Build();
 
 //var path = Directory.GetCurrentDirectory();

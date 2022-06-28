@@ -112,10 +112,10 @@
                         @item.EmployeeName
                     </td>
                     
-                   @if (item.ActivityName != null)
+                   @if (item.ActivityNameList != null)
                     {
                         @*activityNameList = string.Join(" | ", item.ActivityList.Select(x => x.ActivityName));*@
-                        activityNameList = string.Join(", ", item.ActivityName);
+                        activityNameList = string.Join(", ", item.ActivityNameList);
                     }
                     <td>
                         @activityNameList

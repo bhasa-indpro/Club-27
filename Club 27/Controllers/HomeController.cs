@@ -59,13 +59,21 @@ namespace Club_27.Controllers
             //         ActivityList = d.Select(e => e.Activity).ToList()
             //     });
 
-            var enrollmentGroupByEmployee = item.GroupBy(c => c.Employee.EmployeeName)
-                .Select(d => new EnrollmentViewModelAutoMapper
-                {
-                    EmployeeName = d.Key,
-                    ActivityName = d.Select(e => e.Activity.ActivityName).ToList()
-                });
-            return View (enrollmentGroupByEmployee);
+            //var enrollmentGroupByEmployee = item.GroupBy(c => c.Employee.EmployeeName)
+            //    .Select(d => new EnrollmentViewModelAutoMapper
+            //    {
+            //        EmployeeName = d.Key,
+            //        ActivityName = d.Select(e => e.Activity.ActivityName).ToList()
+            //    });
+            //return View (enrollmentGroupByEmployee);
+
+            var enrollmentGroupByEmployee = mappedItem.GroupBy(c => c.EmployeeName)
+             .Select(d => new EnrollmentViewModelAutoMapper
+             {
+                 EmployeeName = d.Key,
+                 ActivityNameList = d.Select(e => e.ActivityName).ToList()
+             });
+            return View(enrollmentGroupByEmployee);
 
             //return View(employeeGroupedActivityList);
             //return View(mappedItem);
@@ -81,6 +89,13 @@ namespace Club_27.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

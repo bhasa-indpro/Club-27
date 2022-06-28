@@ -11,7 +11,7 @@ namespace Club_27.AutoMapper
             CreateMap<Enrollment, EnrollmentViewModelAutoMapper>()
                 .ForMember(d => d.EmployeeName, s => s.MapFrom(src => src.Employee.EmployeeName))
                 //.ForMember(d => d.ActivityName, s => s.MapFrom(src => string.Join(", ",src.Activity.ActivityName.ToList().Select(x=>x)) ))
-                .ForMember(d => d.ActivityName, s => s.MapFrom(src => src.Activity.ActivityName.ToList()))
+                .ForMember(d => d.ActivityName, s => s.MapFrom(src => src.Activity.ActivityName))
                 .ReverseMap();
         }
     }

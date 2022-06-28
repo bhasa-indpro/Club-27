@@ -44,6 +44,7 @@ namespace Club_27.Controllers
         }
 
         // GET: EmployeeActivities/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int id)
         {
             //if (id == null)
@@ -93,6 +94,7 @@ namespace Club_27.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(Enrollment employeeActivity)
         {
 
@@ -241,6 +243,7 @@ namespace Club_27.Controllers
         //}
 
         // GET: EmployeeActivities/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
 
@@ -270,6 +273,7 @@ namespace Club_27.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id , Enrollment employeeActivity)
         {
             //if (id != employeeActivity.EnrollmentID)
@@ -326,6 +330,7 @@ namespace Club_27.Controllers
         }
 
         // GET: EmployeeActivities/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             //if (id == null)
@@ -349,6 +354,7 @@ namespace Club_27.Controllers
         // POST: EmployeeActivities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             //var employeeActivity = await _context.Enrollments.FindAsync(id);
@@ -385,5 +391,7 @@ namespace Club_27.Controllers
         //    var returnValue = Json(teamDropDownItems);
         //    return Json(teamDropDownItems);
         //}
+
+       
     }
 }
