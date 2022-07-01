@@ -39,7 +39,6 @@ namespace Club_27.Controllers
         // GET: EmployeeActivities
         public async Task<IActionResult> Index()
         {
-            //return View(await _context.Enrollments.Include(x => x.Employee).Include(x => x.Activity).Include(x => x.Team).ToListAsync());
             return View(_enrollmentSL.AllEnrollment().ToList());
         }
 
@@ -47,19 +46,6 @@ namespace Club_27.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int id)
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var employeeActivity = await _context.Enrollments.Include(x => x.Activity).Include(x => x.Team).Include(x => x.Employee).FirstOrDefaultAsync(m => m.EnrollmentID == id);
-
-            //if (employeeActivity == null)
-            //{
-            //    return NotFound();
-            //}
-            //var GetObj = _context.Enrollments.Include(x => x.Activity).Include(x => x.Venue).Include(x => x.Employee).FirstOrDefaultAsync(m => m.EnrollmentID == id);
-            //ViewBag.GetObj = GetObj;
             var obj = _enrollmentSL.GetEnrollment(id);
 
             if (obj == null)
@@ -98,40 +84,6 @@ namespace Club_27.Controllers
         public ActionResult Create(Enrollment employeeActivity)
         {
 
-            //if (ModelState.IsValid)
-            //{
-            //    var count = _context.Enrollments.Where(x => x.EmployeeID == employeeActivity.EmployeeID).Count();
-
-
-            //    if (count < 4)
-            //    {
-            //        //var count2 = _context.Enrollments.Where(x => x.EmployeeID == employeeActivity.EmployeeID
-            //        //&& x.ActivityID == employeeActivity.ActivityID).Count();
-            //        try
-            //        {
-            //            _context.Enrollments.Add(employeeActivity);
-            //            _context.SaveChanges();
-            //            return RedirectToAction("Index");
-            //        }
-            //        catch (Exception ex)
-            //        {
-
-            //            if (ex is DbUpdateException)
-            //            {
-            //                //return Content("Error - Duplicate Enrollment");
-            //                _logger.LogInformation("Duplicate (CreatePost)");
-            //                ViewBag.Duplicate1 = "Error - Duplicate Enrollment";
-            //            }
-
-            //        }
-            //    }
-            //    else
-            //    {
-            //        //return Content("Error - Maximum of 4 activities only");
-            //        _logger.LogInformation("Exceeding (CreatePost)");
-            //        ViewBag.Duplicate2 = "Error - Maximum of 4 activities only";
-            //    }
-
             var result = _enrollmentSL.CreateEnrollment(employeeActivity);
             if (result == "Success")
                 return RedirectToAction("Index");
@@ -151,45 +103,6 @@ namespace Club_27.Controllers
             ViewBag.TypeDropDown3 = TypeDropDown3;
 
             return View(employeeActivity);
-
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-            //        var enrollmentList = _context.Enrollments.Where(x => x.Employee.EmployeeID == employeeActivity.EmployeeID).ToList();
-            //        foreach (var item in enrollmentList)
-            //        {
-            //            if (item.Activity == employeeActivity.Activity)
-            //            {
-            //                ViewBag.ErrorMessage = "Error-Duplicate";
-            //            }
-            //        }
-
-
-
-            //        int count = _context.Enrollments.Where(x => x.Employee.EmployeeID == employeeActivity.EmployeeID).Count();
-            //        //IList<ActivityMaster> actlist = (IList<ActivityMaster>)_context.Enrollments.Where(x => x.Employee.EmployeeID == employeeActivity.EmployeeID).ToListAsync();
-
-            //        if (count < 4)
-            //        {
-            //            _context.Add(employeeActivity);
-            //            _context.SaveChanges();
-            //            return RedirectToAction(nameof(Index));
-            //        }
-            //        else
-            //        {
-            //            return RedirectToAction(nameof(OverLimit));
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    if (ex is DbUpdateException)
-            //    {
-            //        ViewBag
-            //    }
-            //}
-            //return View(employeeActivity);
         }
 
         public IActionResult OverLimit()
@@ -202,61 +115,14 @@ namespace Club_27.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create(int empID, int actID, int[] actlist)
-        //{
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        int count = _context.Enrollments.Where(x => x.Employee.EmployeeID == empID).Count();
-        //        int dupFlag = 0;
-        //        foreach (var i in actlist)
-        //        {
-        //            if (actID == i)
-        //            {
-        //                dupFlag = 1;
-        //                break;
-        //            }                   
-        //            else
-        //                dupFlag = 0;
-        //        }
-
-        //        if (count < 4 && dupFlag == 0)
-        //        {
-        //            Enrollment employeeActivity = new Enrollment()
-        //            {
-        //                EmployeeID = empID, ActivityID = actID
-
-        //            };
-
-        //            _context.Add(employeeActivity);
-        //            await _context.SaveChangesAsync();
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        else
-        //        {
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //    }
-        //    return View();
-        //}
+       
 
         // GET: EmployeeActivities/Edit/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
 
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var employeeActivity = await _context.Enrollments.FindAsync(id);
-            //if (employeeActivity == null)
-            //{
-            //    return NotFound();
-            //}
+            
             var obj = _enrollmentSL.GetEnrollment(id);
 
             var TypeDropDown1 = _employeeMasterSL.AllEmployee().ToList();
@@ -276,13 +142,7 @@ namespace Club_27.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id , Enrollment employeeActivity)
         {
-            //if (id != employeeActivity.EnrollmentID)
-            //{
-            //    return NotFound();
-            //}
-
-            //if (ModelState.IsValid)
-            //{
+            
             var TypeDropDown1 = _employeeMasterSL.AllEmployee().ToList();
             var TypeDropDown2 = _activityMasterSL.AllActivity().ToList();
             var TypeDropDown3 = _teamSL.AllTeam().ToList();
@@ -291,34 +151,7 @@ namespace Club_27.Controllers
             ViewBag.TypeDropDown2 = TypeDropDown2;
             ViewBag.TypeDropDown3 = TypeDropDown3;
 
-            //    try
-            //    {
-            //        employeeActivity.EnrollmentID = id;
-            //        _context.Update(employeeActivity);
-            //        await _context.SaveChangesAsync();
-            //        return RedirectToAction(nameof(Index));
-            //    }
-            //    catch (DbUpdateConcurrencyException)
-            //    {
-            //        if (!EnrollmentExists(employeeActivity.EnrollmentID))
-            //        {
-            //            return NotFound();
-            //        }
-            //        else
-            //        {
-            //            throw;
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        if (ex is DbUpdateException)
-            //        {
-            //            //return Content("Error - Duplicate Enrollment");
-            //            ViewBag.Duplicate1 = "Error - Duplicate Enrollment";
-            //        }
-            //    }
-
-            //}
+            
             var result = _enrollmentSL.UpdateEnrollment(id , employeeActivity);
             if (result == "Success")
                 return RedirectToAction("Index");
@@ -333,19 +166,7 @@ namespace Club_27.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var employeeActivity = await _context.Enrollments
-            //    .FirstOrDefaultAsync(m => m.EnrollmentID == id);
-            //if (employeeActivity == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return View(employeeActivity);
+            
 
             var obj = _enrollmentSL.GetEnrollment(id);
             return View(obj);
@@ -357,11 +178,7 @@ namespace Club_27.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            //var employeeActivity = await _context.Enrollments.FindAsync(id);
-            //_context.Enrollments.Remove(employeeActivity);
-            //await _context.SaveChangesAsync();
-            //return RedirectToAction(nameof(Index));
-
+            
             var result = _enrollmentSL.DeleteEnrollment(_enrollmentSL.GetEnrollment(id));
             return RedirectToAction(nameof(Index));
         }
@@ -378,20 +195,6 @@ namespace Club_27.Controllers
             var teamDropDownItems = teamList.Select(x => new SelectListItem { Value = x.ID.ToString() , Text = x.Name }).ToList();
             var returnValue = Json(teamDropDownItems);
             return Json(teamDropDownItems);
-        }
-
-        //[HttpPost]
-        //public async Task<JsonResult> GetActivityList(int id)
-        //{
-        //    var selectedTeam = _teamSL.GetTeam(id);
-        //    var selectedTeamName = selectedTeam.Name;
-        //    var teamListFromName = _teamSL.AllTeam().Where(x => x.Name == selectedTeamName).ToList();
-        //    var activityListFromName = _
-        //    var activityDropDownItems = teamList.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.Name }).ToList();
-        //    var returnValue = Json(teamDropDownItems);
-        //    return Json(teamDropDownItems);
-        //}
-
-       
+        }       
     }
 }

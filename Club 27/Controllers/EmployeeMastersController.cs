@@ -26,19 +26,7 @@ namespace Club_27.Controllers
         // GET: EmployeeMasters
         public async Task<IActionResult> Index()
         {
-            //var joinedData = _context.Enrollments.Include(x => x.Employee).Include(x => x.Activity).ToListAsync();
-            //var j2 = joinedData.Select(x => new
-            //{
-            //    x.EmployeeID,
-            //    x.Em
-            //});
-                        
             return View(_employeeMasterSL.AllEmployee().ToList());
-            //var t = new EnrollmentViewModel();
-            //var enrolledActivities = await _context.EmployeeMasters.Include(x => x.Activity).Select(x => new EnrollmentViewModel { EmployeeVM = x , ActivityListVM = x }).ToListAsync();
-            //return View(enrolledActivities);
-
-            
         }
 
         // GET: EmployeeMasters/Details/5
@@ -48,7 +36,7 @@ namespace Club_27.Controllers
             if (employeeMaster == null)
             {
                 return NotFound();
-            }                   
+            }
 
             return View(employeeMaster);
         }
@@ -56,9 +44,6 @@ namespace Club_27.Controllers
         // GET: EmployeeMasters/Create
         public IActionResult Create()
         {
-            //var TypeDropDown = _context.Roles.ToList();
-            //ViewBag.TypeDropDown = TypeDropDown;
-
             return View();
         }
 
@@ -69,25 +54,6 @@ namespace Club_27.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(EmployeeMaster employeeMaster)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-            //        _context.Add(employeeMaster);
-            //        await _context.SaveChangesAsync();
-            //        return RedirectToAction(nameof(Index));
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        if (ex is DbUpdateException)
-            //        {
-            //            //return Content("Error - Duplicate Enrollment");
-            //            //_logger.LogInformation(ex.ToString());
-            //            ViewBag.Error = "Error - Please enter a new Email Address";
-            //        }
-            //    }
-            //}
-            //return View(employeeMaster);
             var result = _employeeMasterSL.CreateEmployee(employeeMaster);
             if (result == true)
             {
@@ -103,20 +69,6 @@ namespace Club_27.Controllers
         // GET: EmployeeMasters/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var employeeMaster = await _context.EmployeeMasters.FindAsync(id);
-            //if (employeeMaster == null)
-            //{
-            //    return NotFound();
-            //}
-            //var TypeDropDown = _context.Roles.ToList();
-            //ViewBag.TypeDropDown = TypeDropDown;
-            //return View(employeeMaster);
-
             var employeeMaster = _employeeMasterSL.GetEmployee(id);
             return View(employeeMaster);
         }
@@ -128,33 +80,7 @@ namespace Club_27.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EmployeeMaster employeeMaster)
         {
-            //if (id != employeeMaster.EmployeeID)
-            //{
-            //    return NotFound();
-            //}
-
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-            //        _context.Update(employeeMaster);
-            //        await _context.SaveChangesAsync();
-            //    }
-            //    catch (DbUpdateConcurrencyException)
-            //    {
-            //        if (!EmployeeMasterExists(employeeMaster.EmployeeID))
-            //        {
-            //            return NotFound();
-            //        }
-            //        else
-            //        {
-            //            throw;
-            //        }
-            //    }
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //return View(employeeMaster);
-
+            
             var result = _employeeMasterSL.UpdateEmployee(employeeMaster);
             if (result == true)
             {
@@ -170,20 +96,7 @@ namespace Club_27.Controllers
         // GET: EmployeeMasters/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var employeeMaster = await _context.EmployeeMasters
-            //    .FirstOrDefaultAsync(m => m.EmployeeID == id);
-            //if (employeeMaster == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return View(employeeMaster);
-
+           
             var employeeMaster = _employeeMasterSL.GetEmployee(id);
             return View(employeeMaster);
         }
@@ -193,18 +106,9 @@ namespace Club_27.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            //var employeeMaster = await _context.EmployeeMasters.FindAsync(id);
-            //_context.EmployeeMasters.Remove(employeeMaster);
-            //await _context.SaveChangesAsync();
-            //return RedirectToAction(nameof(Index));
-
+            
             var result = _employeeMasterSL.DeleteEmployee(_employeeMasterSL.GetEmployee(id));
             return RedirectToAction(nameof(Index));
         }
-
-        //private bool EmployeeMasterExists(int id)
-        //{
-        //    return _context.EmployeeMasters.Any(e => e.EmployeeID == id);
-        //}
     }
 }

@@ -19,11 +19,6 @@ namespace Club_27.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        //public HomeController(ILogger<HomeController> logger)
-        //{
-        //    _logger = logger;
-        //}
-
         private readonly Club27DBContext _context;
 
         private readonly EnrollmentSL enrollmentSL;
@@ -39,33 +34,12 @@ namespace Club_27.Controllers
         public IActionResult Index()        
         {
             var objEnrollmentList = _context.Enrollments.Include(x => x.Employee).Include(x => x.Activity).ToList();
-            //var objEnrollmentList = enrollmentSL.AllEnrollment();
-                 
-            //var employeeGroupedActivityList = objEnrollmentList.GroupBy(c => c.Employee.EmployeeID)
-            //     .Select(d => new EnrollmentViewModel
-            //     {
-            //         EmployeeVM = objEnrollmentList.Where(y => y.Employee.EmployeeID == d.Key).Select(y => y.Employee).FirstOrDefault(),
-            //         ActivityListVM =  d.Select(e => e.Activity).ToList()
-            //     });
+           
             
             //AutoMapper Part
             var item = _context.Enrollments.Include(x => x.Employee).Include(x => x.Activity).ToList();
             var mappedItem = _mapper.Map<List<EnrollmentViewModelAutoMapper>>(item);
 
-            //var employeeGroupedActivityList = item.GroupBy(c => c.Employee.EmployeeID)
-            //     .Select(d => new EnrollmentViewModelAutoMapper
-            //     {
-            //         EmployeeID = item.Where(y => y.EmployeeID == d.Key),
-            //         ActivityList = d.Select(e => e.Activity).ToList()
-            //     });
-
-            //var enrollmentGroupByEmployee = item.GroupBy(c => c.Employee.EmployeeName)
-            //    .Select(d => new EnrollmentViewModelAutoMapper
-            //    {
-            //        EmployeeName = d.Key,
-            //        ActivityName = d.Select(e => e.Activity.ActivityName).ToList()
-            //    });
-            //return View (enrollmentGroupByEmployee);
 
             var enrollmentGroupByEmployee = mappedItem.GroupBy(c => c.EmployeeName)
              .Select(d => new EnrollmentViewModelAutoMapper
@@ -74,9 +48,6 @@ namespace Club_27.Controllers
                  ActivityNameList = d.Select(e => e.ActivityName).ToList()
              });
             return View(enrollmentGroupByEmployee);
-
-            //return View(employeeGroupedActivityList);
-            //return View(mappedItem);
 
         }
 
