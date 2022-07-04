@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+   /*	.btnHover{
+   	    border: none;
+   	    padding: 9px 13px;
+   	    color: white;
+        background-color: red;
+   	    border-radius: 3px;
+   	}*/
+    .btnHover:hover{
+    	background-color: grey;
+        cursor: pointer;
+    }
+   	
+   </style>
+  </head>
+
+  <body>
+    <button id="btnClick" >Colour Change On Click</button>
+    <br />
+    <br />
+    <button type="button" class="btnHover" >Colour Change On Hover</button>
+    <br />
+    <br />
+    <div class="input_fields_wrap">
+                <button class="add_field_button">Open/Close Text Box</button>
+                <br />
+                @*<div><input type="text" name="mytext[]" style="height:120px; width:411px;"></div>*@
+            </div>
+
+            <br />
+
+            <script>
+                    $(document).ready(function() {
+                    var max_fields      = 2;
+                    var wrapper         = $(".input_fields_wrap");
+                    var add_button      = $(".add_field_button");
+                    var x = 1;
+                   $(add_button).click(function(e){
+                        e.preventDefault();
+                        if(x < max_fields){
+                            $(wrapper).append('<div> <input type="text" name="mytext[]" style="height:120px; width:411px;"/><a href="#" class="remove_field">Remove</a></div>');
+                            x++;
+                      }
+                    });
+                    $(wrapper).on("click",".remove_field", function(e){
+                        e.preventDefault();
+                        $(this).parent('div').remove();
+                        x--;
+                    })
+                });
+            </script>
+
+
+    @*<script src="onClickChange.js"></script>*@
+  </body>
+</html>
+
+<script>
+const btn = document.getElementById('btnClick');
+
+let index = 0;
+
+const colors = ['salmon', 'green', 'blue', 'purple'];
+
+btn.addEventListener('click', function onClick() {
+  btn.style.backgroundColor = colors[index];
+  btn.style.color = 'white';
+
+  index = index >= colors.length - 1 ? 0 : index + 1;
+});
+</script>
