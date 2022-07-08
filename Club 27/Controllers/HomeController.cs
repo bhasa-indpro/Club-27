@@ -11,6 +11,7 @@ using Club_27.ViewModels;
 using Club_27.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace Club_27.Controllers
 {
@@ -67,6 +68,65 @@ namespace Club_27.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+
+        public ActionResult ActivityChart()
+        {
+            return View();
+        }
+
+        public JsonResult ActivityChartData()
+        {
+            var item = _context.Enrollments.Include(x => x.Employee).Include(x => x.Activity).ToList();
+            var mappedItem = _mapper.Map<List<EnrollmentViewModelAutoMapper>>(item);
+
+            //EnrollmentViewModelAutoMapper vmobj = new EnrollmentViewModelAutoMapper();
+
+            //var allActivity = _context.ActivityMasters.Select(x=>x.ActivityName).ToList();
+            //foreach(var i in allActivity)
+            //{
+            //    ActivityFlag flagListObj = new ActivityFlag();
+            //    flagListObj.ActName = i;
+            //    flagListObj.FlagValue = 0;
+            //    vmobj.ActivityFlagList.Add(flagListObj);
+            //}
+
+            var enrollmentGroupByEmployee = mappedItem.GroupBy(c => c.EmployeeName)
+             .Select(d => new EnrollmentViewModelAutoMapper
+             {
+                 EmployeeName = d.Key,
+                 ActivityNameList = d.Select(e => e.ActivityName).ToList(),
+                 ActivityCount = d.Select(f=>f.ActivityNameList).Count(),
+                 ActivityFlagList = FlagMod (d.Select(g=>g.ActivityName).ToList())
+             });
+
+            return Json(enrollmentGroupByEmployee);
+            //return View(Json(enrollmentGroupByEmployee));
+        }
+
+        public List<ActivityFlag> FlagMod(List<string> ActNameList)
+        {
+            List<ActivityFlag> result = new List<ActivityFlag>();
+            var allActivity = _context.ActivityMasters.Select(x=>x.ActivityName).ToList();
+
+            foreach (var i in allActivity)
+            {
+                result.Add(new ActivityFlag { ActName = i , FlagValue = 0});
+            }
+
+            foreach (var i in result)
+            {
+                foreach (var j in ActNameList)
+                {
+                    if(i.ActName == j)
+                    {
+                        //result.Add(new ActivityFlag { ActName = i.ActName , FlagValue = 1});
+                        i.FlagValue = 1;
+                        break;
+                    }
+                }
+            }
+            return result;
         }
     }
 }

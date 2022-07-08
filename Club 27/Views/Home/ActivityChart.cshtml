@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Result Visualization</title>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function () { 
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json", 
+                url: '@Url.Action("ActivityChartData", "Home")',
+                success: function (result) {
+                    google.charts.load('current', {'packages': ['corechart']});
+                    google.charts.setOnLoadCallback(function () {
+                        drawChart(result);
+                    });
+                }
+            });
+        });
+
+        function drawChart(result) {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Name');
+            data.addColumn('number', 'Activities'); 
+            var dataArray = [];
+
+            $.each(result, function (i, obj) {
+                dataArray.push([obj.employeeName, obj.activityCount]);
+            });
+            data.addRows(dataArray);
+
+            var options = {
+                title: "Activity Chart",
+                //width: 1000,
+                //height: 400,
+                //bar: { groupWidth: "20%" },
+                isStacked: 'percent'
+            };
+
+            var columnChart = new google.visualization.ColumnChart(document
+                .getElementById('chartdiv'));
+
+            columnChart.draw(data, options);
+        }
+    </script>
+</head>
+<body> 
+    <div id="chartdiv"></div>
+   @* <a href="@Url.Action("PieChart")" class="btn btn-danger">Pie Chart</a>
+    <a href="@Url.Action("ColumnChart")" class="active btn btn-primary">Column Chart</a>
+    <a href="@Url.Action("LineChart")" class="btn btn-warning">Line Chart</a> *@
+</body>
+</html>
+
+@*<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div id="chartdiv"></div>
+</body>
+
+
+@section Scripts{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+         google.charts.load('current', {'packages': ['corechart'] });
+          google.charts.setOnLoadCallback(DrawonLoad);
+          function DrawonLoad () {
+          $(function () {
+              $.ajax({
+                type: "GET",
+                url: '/Home/ActivityChart',
+                datatype: "json",
+                success : function (chartsdata) {
+                    var Data = chartsdata.jsonList;
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'ActivityName');
+                    data.addColumn('string', 'EmployeeName');
+                    
+                    for (var i=0; i< model; i++)
+                    {
+                        data.addRow(Data[i].employeeName, Data[i].activityName)
+                    }
+
+                     var chart = new google.visualization.PieChart(document
+                        .getElementById('chartdiv'));
+
+                     chart.draw(data,
+                     {
+                         title : "ActivityChart",
+                         position : "top",
+                         fontsize : "14px"
+                     });
+                },error : function() {
+                    alert('Error Error')
+                }
+              })
+          });
+          }
+    </script>
+}
+</html>
+*@
