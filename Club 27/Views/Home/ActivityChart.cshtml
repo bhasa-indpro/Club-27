@@ -25,13 +25,35 @@
         function drawChart(result) {
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Name');
-            data.addColumn('number', 'Activities'); 
+            //data.addColumn('number', 'Activities'); 
             var dataArray = [];
 
+            var column=true;
+
             $.each(result, function (i, obj) {
-                dataArray.push([obj.employeeName, obj.activityCount]);
+                if(column)
+                {
+                    //console.log(obj.activityFlagList);
+                    $.each(obj.activityFlagList , function(j,obj2) {
+                        data.addColumn('number', obj2.actName);
+                    });
+                    
+                    column=false;
+                }
             });
-            data.addRows(dataArray);
+
+            
+
+            $.each(result, function (i, obj) {
+                dataArray=[];                
+                dataArray.push(obj.employeeName);
+                 $.each(obj.activityFlagList , function(j,obj2) {
+                        dataArray.push(parseInt(obj2.flagValue));
+                    });
+                    console.log(dataArray);
+                    data.addRow(dataArray);
+            });
+            
 
             var options = {
                 title: "Activity Chart",

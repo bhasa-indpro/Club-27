@@ -12,6 +12,7 @@ using Club_27.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
+using System.Data;
 
 namespace Club_27.Controllers
 {
@@ -99,6 +100,8 @@ namespace Club_27.Controllers
                  ActivityCount = d.Select(f=>f.ActivityNameList).Count(),
                  ActivityFlagList = FlagMod (d.Select(g=>g.ActivityName).ToList())
              });
+
+            //DataTable dt = (DataTable)JsonConvert.DeserializeObject(enrollmentGroupByEmployee, typeof(DataTable));
 
             return Json(enrollmentGroupByEmployee);
             //return View(Json(enrollmentGroupByEmployee));
