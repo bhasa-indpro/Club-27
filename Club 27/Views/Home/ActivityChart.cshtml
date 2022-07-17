@@ -50,14 +50,14 @@
                  $.each(obj.activityFlagList , function(j,obj2) {
                         dataArray.push(parseInt(obj2.flagValue));
                     });
-                    console.log(dataArray);
+                    //console.log(dataArray);
                     data.addRow(dataArray);
             });
             
 
             var options = {
                 title: "Activity Chart",
-                //width: 1000,
+                width: 1000,
                 //height: 400,
                 //bar: { groupWidth: "20%" },
                 isStacked: 'percent'

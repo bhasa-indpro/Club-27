@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Result Visualization</title>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function () 
+        { 
+            $.ajax(
+                {
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json", 
+                url: '@Url.Action("VenueTeamChartData", "Home")',
+                success: function (data) 
+                {
+                    //chartData = data;
+                    var gDataTable = new google.visualization.arrayToDataTable(data);
+                }.done(function() 
+                {
+                    google.charts.load('current', {'packages': ['corechart'] 
+                });
+
+
+            google.charts.setOnLoadCallback();
+
+            var options = 
+            {
+                title: "Activity Chart",
+                width: 1000,
+                //height: 400,
+                //bar: { groupWidth: "20%" },
+                isStacked: 'percent'
+            };
+
+            var columnChart = new google.visualization.ColumnChart(document
+                .getElementById('chartdiv'));
+
+            columnChart.draw(gDataTable, options);
+                });
+          });
+
+        //function drawChart() {
+        //    //var gDataTable = new google.visualization.arrayToDataTable(chartData);
+        //    //data = result;
+        //    //data.addColumn('string', 'Name');
+        //    ////data.addColumn('number', 'Activities'); 
+        //    //var dataArray = [];
+
+        //    //var column=true;
+
+        //    //$.each(result, function (i, obj) {
+        //    //    if(column)
+        //    //    {
+        //    //        //console.log(obj.activityFlagList);
+        //    //        $.each(obj.activityFlagList , function(j,obj2) {
+        //    //            data.addColumn('number', obj2.actName);
+        //    //        });
+
+        //    //        column=false;
+        //    //    }
+        //    //});
+
+
+
+        //    //$.each(result, function (i, obj) {
+        //    //    dataArray=[];                
+        //    //    dataArray.push(obj.employeeName);
+        //    //     $.each(obj.activityFlagList , function(j,obj2) {
+        //    //            dataArray.push(parseInt(obj2.flagValue));
+        //    //        });
+        //    //        //console.log(dataArray);
+        //    //        data.addRow(dataArray);
+        //    //});
+
+
+        //    var options = {
+        //        title: "Activity Chart",
+        //        width: 1000,
+        //        //height: 400,
+        //        //bar: { groupWidth: "20%" },
+        //        isStacked: 'percent'
+        //    };
+
+        //    var columnChart = new google.visualization.ColumnChart(document
+        //        .getElementById('chartdiv'));
+
+        //    columnChart.draw(gDataTable, options);
+        //}
+    </script>
+</head>
+<body> 
+    <div id="chartdiv"></div>
+   @* <a href="@Url.Action("PieChart")" class="btn btn-danger">Pie Chart</a>
+            <a href="@Url.Action("ColumnChart")" class="active btn btn-primary">Column Chart</a>
+            <a href="@Url.Action("LineChart")" class="btn btn-warning">Line Chart</a> *@
+</body>
+</html>
