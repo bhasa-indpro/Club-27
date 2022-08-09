@@ -10,7 +10,7 @@ using Club_27.Services;
 
 namespace Club_27.Controllers.API
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ActivityMastersController : ControllerBase
     {

@@ -97,6 +97,8 @@ app.MapControllerRoute(
 
 app.Run();
 
+public partial class Program { }
+
 //public partial class Program
 //{
 //    public static ILoggerFactory Logger { get; set; }

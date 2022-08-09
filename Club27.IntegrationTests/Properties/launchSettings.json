@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Club27.IntegrationTests": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:3061;http://localhost:3062"
+    }
+  }
+}
