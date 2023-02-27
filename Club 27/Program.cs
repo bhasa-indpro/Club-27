@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Club_27;
 using Club_27.AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using Nest;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -30,6 +31,7 @@ var connectionString = builder.Configuration.GetConnectionString("Club_27Context
 //builder.Services.AddDbContext<Club27DBContext>(options =>    options.UseSqlServer(connectionString));;
 
 //var connectionstring = builder.Configuration.GetConnectionString("Club27Connection");
+
 
 builder.Services.AddDbContext<Club27DBContext>(x => x.UseSqlServer(connectionString));
 // Add services to the container.
@@ -54,6 +56,9 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
 });
 var mapper = config.CreateMapper();
 builder.Services.AddSingleton(mapper);
+
+var settings = new ConnectionSettings();
+builder.Services.AddSingleton<IElasticClient>(new ElasticClient (settings));
 
 builder.Services.AddRazorPages();
 //builder.Services.AddSwaggerGen();
